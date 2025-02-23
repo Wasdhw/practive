@@ -12,4 +12,5 @@
     <string name="register">Register</string>
     <string name="already_have_an_account_sign_in">Already have an Account? Sign in</string>
     <string name="todo1">TODO</string>
+    <string name="books">BOOKS</string>
 </resources>

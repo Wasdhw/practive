@@ -14,17 +14,26 @@
         android:theme="@style/Theme.Practive"
         tools:targetApi="31">
         <activity
-            android:name=".register"
+            android:name="MAINUI.Account"
+            android:exported="false" />
+        <activity
+            android:name="MAINUI.Borrow"
+            android:exported="false" />
+        <activity
+            android:name="MAINUI.Books"
+            android:exported="false" />
+        <activity
+            android:name=".Register"
             android:exported="true" />
-
         <activity
             android:name=".Login"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

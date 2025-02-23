@@ -10,6 +10,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.practive.database.UserDao
 import com.example.practive.database.UserDatabase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -23,6 +24,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var btn: Button
     private lateinit var reg: TextView
     private lateinit var userDatabase: UserDatabase
+    private lateinit var userDao: UserDao
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +37,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         userDatabase = UserDatabase.getDatabase(this)
+        userDao = userDatabase.userDao()
 
         usernameInput = findViewById(R.id.username)
         passwordInput = findViewById(R.id.passcode)
@@ -42,13 +45,14 @@ class MainActivity : AppCompatActivity() {
         reg = findViewById(R.id.Regis)
 
         reg.setOnClickListener {
-            startActivity(Intent(this, register::class.java))
+            startActivity(Intent(this, Register::class.java))
         }
 
         btn.setOnClickListener {
             loginUser()
         }
     }
+
 
     private fun loginUser() {
         val username = usernameInput.text.toString()
@@ -61,7 +65,7 @@ class MainActivity : AppCompatActivity() {
 
         CoroutineScope(Dispatchers.IO).launch {
             val user = userDatabase.userDao().getUserByUsername(username)
-            withContext(Dispatchers.Main) {
+            runOnUiThread {
                 if (user == null) {
                     Toast.makeText(this@MainActivity, "User does not exist!", Toast.LENGTH_SHORT).show()
                 } else if (user.password == password) {
@@ -71,5 +75,6 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+
     }
 }

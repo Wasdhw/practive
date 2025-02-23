@@ -1,7 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    id("com.google.devtools.ksp") version "1.6.10-1.0.2"
+    id("com.google.devtools.ksp") version "1.9.0-1.0.13"
 }
 
 android {
@@ -49,10 +49,8 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
-    // Room components
-    implementation(libs.androidx.room.runtime.v261)
-    ksp(libs.androidx.room.compiler)
-
-    // Kotlin Extensions and Coroutines support for Room
-    implementation(libs.androidx.room.ktx)
+    // ✅ Room Database Dependencies
+    implementation("androidx.room:room-runtime:2.6.1")
+    implementation("androidx.room:room-ktx:2.6.1")
+    ksp("androidx.room:room-compiler:2.6.1") // ✅ Ensure KSP is properly applied
 }

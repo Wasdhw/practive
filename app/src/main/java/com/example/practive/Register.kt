@@ -2,7 +2,6 @@ package com.example.practive
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Patterns
 import android.view.LayoutInflater
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
@@ -16,7 +15,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class register : AppCompatActivity() {
+class Register : AppCompatActivity() {
 
     private lateinit var boton: TextView
     private lateinit var mbinding: ActivityRegisterBinding
@@ -37,9 +36,8 @@ class register : AppCompatActivity() {
         userDatabase = UserDatabase.getDatabase(this)
 
         boton = findViewById(R.id.signin)
-        val dumb = Intent(this, MainActivity::class.java)
         boton.setOnClickListener {
-            startActivity(dumb)
+            startActivity(Intent(this, MainActivity::class.java))
         }
 
         mbinding.registerbutton.setOnClickListener {
@@ -49,17 +47,23 @@ class register : AppCompatActivity() {
 
     private fun registerUser() {
         if (validateFullName() && validateUser() && validatePassword() && validateConfirmPass() && validatePass()) {
-            val user = User(
-                fullName = mbinding.name.text.toString(),
-                username = mbinding.usernem.text.toString(),
-                password = mbinding.pass.text.toString()
-            )
-
             CoroutineScope(Dispatchers.IO).launch {
-                userDatabase.userDao().insertUser(user)
-                runOnUiThread {
-                    startActivity(Intent(this@register, MainActivity::class.java))
-                    finish()
+                val existingUser = userDatabase.userDao().getUserByUsername(mbinding.usernem.text.toString())
+                if (existingUser != null) {
+                    runOnUiThread {
+                        mbinding.usernem.error = "Username already exists"
+                    }
+                } else {
+                    val user = User(
+                        fullName = mbinding.name.text.toString(),
+                        username = mbinding.usernem.text.toString(),
+                        password = mbinding.pass.text.toString()
+                    )
+                    userDatabase.userDao().insertUser(user)
+                    runOnUiThread {
+                        startActivity(Intent(this@Register, MainActivity::class.java))
+                        finish()
+                    }
                 }
             }
         }
@@ -80,9 +84,6 @@ class register : AppCompatActivity() {
         return if (value.isEmpty()) {
             mbinding.usernem.error = "Username is Required"
             false
-        } else if (!Patterns.EMAIL_ADDRESS.matcher(value).matches()) {
-            mbinding.usernem.error = "Username is Invalid"
-            false
         } else {
             true
         }
@@ -94,7 +95,7 @@ class register : AppCompatActivity() {
             mbinding.pass.error = "Password is Required"
             false
         } else if (value.length < 6) {
-            mbinding.pass.error = "Password must be 6 letters long"
+            mbinding.pass.error = "Password must be at least 6 characters long"
             false
         } else {
             true
@@ -107,7 +108,7 @@ class register : AppCompatActivity() {
             mbinding.confirm.error = "Confirm Password is Required"
             false
         } else if (value.length < 6) {
-            mbinding.confirm.error = "Confirm Password must be 6 letters long"
+            mbinding.confirm.error = "Confirm Password must be at least 6 characters long"
             false
         } else {
             true
@@ -124,5 +125,4 @@ class register : AppCompatActivity() {
             true
         }
     }
-
 }
