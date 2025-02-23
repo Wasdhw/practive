@@ -1,6 +1,7 @@
 package com.example.practive.database
 
 import android.content.Context
+import android.util.Log
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
@@ -15,12 +16,14 @@ abstract class UserDatabase : RoomDatabase() {
         private var INSTANCE: UserDatabase? = null
 
         fun getDatabase(context: Context): UserDatabase {
+
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     UserDatabase::class.java,
                     "user_database"
                 ).fallbackToDestructiveMigration().build()
+                Log.d("DatabaseCheck", "Database Created!")
                 INSTANCE = instance
                 instance
             }

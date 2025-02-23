@@ -64,6 +64,7 @@ class Register : AppCompatActivity() {
                         startActivity(Intent(this@Register, MainActivity::class.java))
                         finish()
                     }
+
                 }
             }
         }

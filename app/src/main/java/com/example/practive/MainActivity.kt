@@ -2,6 +2,7 @@ package com.example.practive
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -10,6 +11,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
 import com.example.practive.database.UserDao
 import com.example.practive.database.UserDatabase
 import kotlinx.coroutines.CoroutineScope
@@ -39,6 +41,9 @@ class MainActivity : AppCompatActivity() {
         userDatabase = UserDatabase.getDatabase(this)
         userDao = userDatabase.userDao()
 
+        fetchAllUsers()
+
+
         usernameInput = findViewById(R.id.username)
         passwordInput = findViewById(R.id.passcode)
         btn = findViewById(R.id.button)
@@ -53,6 +58,17 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun fetchAllUsers() {
+        lifecycleScope.launch(Dispatchers.IO) {
+            val users = userDao.getAllUsers()
+            withContext(Dispatchers.Main) {
+                users.forEach { user ->
+                    Log.d("UserData", "Name: ${user.fullName}, Username: ${user.username}, Password: ${user.password}")
+                }
+            }
+        }
+    }
+
 
     private fun loginUser() {
         val username = usernameInput.text.toString()
@@ -63,7 +79,7 @@ class MainActivity : AppCompatActivity() {
             return
         }
 
-        CoroutineScope(Dispatchers.IO).launch {
+        lifecycleScope.launch(Dispatchers.IO) {
             val user = userDatabase.userDao().getUserByUsername(username)
             runOnUiThread {
                 if (user == null) {
