@@ -50,9 +50,9 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
 
     // Room components
-    implementation("androidx.room:room-runtime:2.4.0")
-    ksp("androidx.room:room-compiler:2.4.0")
+    implementation(libs.androidx.room.runtime.v261)
+    ksp(libs.androidx.room.compiler)
 
     // Kotlin Extensions and Coroutines support for Room
-    implementation("androidx.room:room-ktx:2.4.0")
+    implementation(libs.androidx.room.ktx)
 }

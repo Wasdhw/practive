@@ -56,7 +56,7 @@ class register : AppCompatActivity() {
             )
 
             CoroutineScope(Dispatchers.IO).launch {
-                userDatabase.userDao().insert(user)
+                userDatabase.userDao().insertUser(user)
                 runOnUiThread {
                     startActivity(Intent(this@register, MainActivity::class.java))
                     finish()
