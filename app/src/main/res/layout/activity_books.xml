@@ -28,6 +28,7 @@
         android:id="@+id/border3"
         android:layout_width="393dp"
         android:layout_height="50dp"
+        android:contentDescription="TADA"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -44,7 +45,7 @@
         android:background="@drawable/borderui"
         android:backgroundTintMode="multiply"
         android:fontFamily="@font/jaro"
-        android:text="@string/books"
+        android:text="BOOKS"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/border3"
         app:layout_constraintEnd_toEndOf="@+id/border3"
@@ -57,7 +58,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/jaro"
-        android:text="BORROW"
+        android:text="@string/borrow2"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/border3"
         app:layout_constraintEnd_toEndOf="@+id/border3"
@@ -67,11 +68,11 @@
         app:layout_constraintVertical_bias="0.375" />
 
     <TextView
-        android:id="@+id/account3"
+        android:id="@+id/Account3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/jaro"
-        android:text="ACCOUNT"
+        android:text="@string/account2"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/border3"
         app:layout_constraintEnd_toEndOf="parent"
@@ -133,19 +134,9 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
 
 
 </LinearLayout>
-
 
 
     </ScrollView>

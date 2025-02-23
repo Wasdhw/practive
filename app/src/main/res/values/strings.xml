@@ -13,4 +13,19 @@
     <string name="already_have_an_account_sign_in">Already have an Account? Sign in</string>
     <string name="todo1">TODO</string>
     <string name="books">BOOKS</string>
+    <string name="books1">BOOKS</string>
+    <string name="borrow1">BORROW</string>
+    <string name="account1">ACCOUNT</string>
+    <string name="borrow">BORROW</string>
+    <string name="account">account\n</string>
+    <string name="books2">books2\n</string>
+    <string name="borrow2">BORROW</string>
+    <string name="account2">ACCOUNT</string>
+    <string name="borrow3">BORROW</string>
+    <string name="books3">books3\n</string>
+    <string name="account3">ACCOUNT</string>
+    <string name="account4">ACCOUNT</string>
+    <string name="borrow4">borrow4\n</string>
+    <string name="books4">books4\n</string>
+    <string name="aaccount">ACCOUNT</string>
 </resources>

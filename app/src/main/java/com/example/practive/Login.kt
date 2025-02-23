@@ -1,6 +1,8 @@
 package com.example.practive
 
+import MAINUI.Account
 import MAINUI.Books
+import MAINUI.Borrow
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
@@ -32,7 +34,12 @@ class Login : AppCompatActivity() {
 
         buks.setOnClickListener {
             startActivity(Intent(this, Books::class.java))
-
+        }
+        barrow.setOnClickListener {
+            startActivity(Intent(this, Borrow::class.java))
+        }
+                akawnt.setOnClickListener {
+                    startActivity(Intent(this, Account::class.java))
+                }
         }
     }
-}

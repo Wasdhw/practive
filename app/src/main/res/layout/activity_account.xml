@@ -43,7 +43,7 @@
         android:layout_marginBottom="19dp"
         android:backgroundTintMode="multiply"
         android:fontFamily="@font/jaro"
-        android:text="@string/books"
+        android:text="BOOKS"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/border1"
         app:layout_constraintEnd_toEndOf="@+id/border1"
@@ -66,12 +66,12 @@
         app:layout_constraintVertical_bias="0.375" />
 
     <TextView
-        android:id="@+id/account1"
+        android:id="@+id/Account1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/borderui"
         android:fontFamily="@font/jaro"
-        android:text="ACCOUNT"
+        android:text="@string/account4"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/border1"
         app:layout_constraintEnd_toEndOf="parent"
@@ -102,6 +102,8 @@
 
 
     </ScrollView>
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
