@@ -28,4 +28,11 @@
     <string name="borrow4">borrow4\n</string>
     <string name="books4">books4\n</string>
     <string name="aaccount">ACCOUNT</string>
+    <string name="todo2">TODO</string>
+    <string name="todo3">TODO</string>
+    <string name="todo4">TODO</string>
+    <string name="back_to_homepage">Back to Homepage</string>
+    <string name="adbooks">BOOKS</string>
+    <string name="adtada">TADA</string>
+    <string name="adadd">ADD</string>
 </resources>

@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -12,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
+import com.example.practive.admin.Admin
 import com.example.practive.database.UserDao
 import com.example.practive.database.UserDatabase
 import kotlinx.coroutines.CoroutineScope
@@ -27,6 +30,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var reg: TextView
     private lateinit var userDatabase: UserDatabase
     private lateinit var userDao: UserDao
+    private lateinit var admin: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,6 +52,7 @@ class MainActivity : AppCompatActivity() {
         passwordInput = findViewById(R.id.passcode)
         btn = findViewById(R.id.button)
         reg = findViewById(R.id.Regis)
+        admin = findViewById(R.id.admin)
 
         reg.setOnClickListener {
             startActivity(Intent(this, Register::class.java))
@@ -55,6 +60,9 @@ class MainActivity : AppCompatActivity() {
 
         btn.setOnClickListener {
             loginUser()
+        }
+        admin.setOnClickListener {
+            startActivity(Intent(this, Admin::class.java))
         }
     }
 

@@ -2,14 +2,14 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/Login"
+    android:id="@+id/adminlogin"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/greenbackground"
     android:backgroundTint="#A8D8B8"
     android:backgroundTintMode="multiply"
     android:paddingStart="20sp"
-    tools:context=".MainActivity"
+    tools:context=".admin.Admin"
     tools:ignore="RtlSymmetry">
 
 
@@ -29,12 +29,12 @@
         app:srcCompat="@drawable/nyahalo" />
 
     <EditText
-        android:id="@+id/username"
+        android:id="@+id/aduser"
         android:layout_width="300dp"
         android:layout_height="55dp"
         android:autofillHints="emailAddress"
         android:background="@drawable/wborder"
-        android:drawableStart="@drawable/user"
+        android:drawableStart="@drawable/baseline_admin_panel_settings_24"
         android:drawablePadding="20dp"
         android:ems="10"
         android:fontFamily="sans-serif-thin"
@@ -54,7 +54,7 @@
         app:layout_constraintVertical_bias="0.451" />
 
     <EditText
-        android:id="@+id/passcode"
+        android:id="@+id/adpass"
         android:layout_width="300dp"
         android:layout_height="55dp"
         android:layout_marginTop="5dp"
@@ -71,16 +71,16 @@
         android:textColor="#FFFFFF"
         android:textColorHint="#9EFFFFFF"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintBottom_toTopOf="@+id/adbutton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.526"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/username"
+        app:layout_constraintTop_toBottomOf="@+id/aduser"
         app:layout_constraintVertical_bias="0.08"
         app:passwordToggleEnabled="true" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/adbutton"
         android:layout_width="149dp"
         android:layout_height="54dp"
         android:layout_marginTop="5dp"
@@ -91,43 +91,26 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/username"
+        app:layout_constraintTop_toBottomOf="@+id/aduser"
         app:layout_constraintVertical_bias="0.621" />
 
     <TextView
-        android:id="@+id/Regis"
-        android:layout_width="138dp"
-        android:layout_height="27dp"
+        android:id="@+id/back2home"
+        android:layout_width="144dp"
+        android:layout_height="31dp"
         android:contentDescription="@string/todo3"
         android:fontFamily="sans-serif-medium"
         android:scrollbarSize="10dp"
-        android:text="@string/register_account"
+        android:text="@string/back_to_homepage"
         android:textColor="#E9E9EB"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.525"
+        app:layout_constraintHorizontal_bias="0.514"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button"
-        app:layout_constraintVertical_bias="0.176"
+        app:layout_constraintTop_toBottomOf="@+id/adbutton"
+        app:layout_constraintVertical_bias="0.145"
         tools:ignore="TextSizeCheck" />
-
-    <ImageView
-        android:id="@+id/admin"
-        android:layout_width="53dp"
-        android:layout_height="51dp"
-        android:layout_marginBottom="26dp"
-        android:clickable="true"
-        android:contentDescription="@string/todo4"
-        android:focusable="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.952"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.019"
-        app:srcCompat="@drawable/baseline_admin_panel_settings_24"
-        tools:ignore="DuplicateSpeakableTextCheck,ImageContrastCheck" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
