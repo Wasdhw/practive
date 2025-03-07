@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -10,8 +11,10 @@
     android:backgroundTintMode="multiply"
     tools:context=".admin.adbooks">
 
+
+
     <ImageView
-        android:id="@+id/savio3"
+        android:id="@+id/adsavio3"
         android:layout_width="410dp"
         android:layout_height="281dp"
         android:layout_marginEnd="20dp"
@@ -25,19 +28,19 @@
         app:srcCompat="@drawable/nyahalo" />
 
     <ImageView
-        android:id="@+id/border3"
+        android:id="@+id/adborder3"
         android:layout_width="393dp"
         android:layout_height="50dp"
         android:contentDescription="@string/adtada"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/savio3"
+        app:layout_constraintTop_toTopOf="@+id/adsavio3"
         app:layout_constraintVertical_bias="0.296"
         app:srcCompat="@drawable/rectangle" />
 
     <TextView
-        android:id="@+id/Books3"
+        android:id="@+id/adBooks3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
@@ -47,99 +50,56 @@
         android:fontFamily="@font/jaro"
         android:text="@string/adbooks"
         android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@+id/border3"
-        app:layout_constraintEnd_toEndOf="@+id/border3"
+        app:layout_constraintBottom_toBottomOf="@+id/adborder3"
+        app:layout_constraintEnd_toEndOf="@+id/adborder3"
         app:layout_constraintHorizontal_bias="0.121"
-        app:layout_constraintStart_toStartOf="@+id/border3"
-        app:layout_constraintTop_toTopOf="@+id/border3" />
+        app:layout_constraintStart_toStartOf="@+id/adborder3"
+        app:layout_constraintTop_toTopOf="@+id/adborder3" />
 
     <TextView
-        android:id="@+id/Borrow3"
+        android:id="@+id/adBorrow3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/jaro"
         android:text="ADD"
         android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@+id/border3"
-        app:layout_constraintEnd_toEndOf="@+id/border3"
+        app:layout_constraintBottom_toBottomOf="@+id/adborder3"
+        app:layout_constraintEnd_toEndOf="@+id/adborder3"
         app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="@+id/border3"
-        app:layout_constraintTop_toTopOf="@+id/border3"
+        app:layout_constraintStart_toStartOf="@+id/adborder3"
+        app:layout_constraintTop_toTopOf="@+id/adborder3"
         app:layout_constraintVertical_bias="0.375" />
 
     <TextView
-        android:id="@+id/Account3"
+        android:id="@+id/adAccount3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/jaro"
         android:text="@string/account2"
         android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@+id/border3"
+        app:layout_constraintBottom_toBottomOf="@+id/adborder3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.872"
-        app:layout_constraintStart_toStartOf="@+id/border3"
-        app:layout_constraintTop_toTopOf="@+id/border3"
+        app:layout_constraintStart_toStartOf="@+id/adborder3"
+        app:layout_constraintTop_toTopOf="@+id/adborder3"
         app:layout_constraintVertical_bias="0.375" />
 
-    <ScrollView
-        android:layout_width="366dp"
-        android:layout_height="532dp"
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="380dp"
+        android:layout_height="567dp"
+        android:layout_margin="0dp"
+        android:layout_marginTop="5dp"
         android:background="@drawable/rectangle"
+        android:padding="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Borrow3" >
+        app:layout_constraintTop_toBottomOf="@+id/adborder3"
+        app:layout_constraintVertical_bias="0.0">
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-
-        </LinearLayout>
-
-
-    </ScrollView>
+    </androidx.recyclerview.widget.RecyclerView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

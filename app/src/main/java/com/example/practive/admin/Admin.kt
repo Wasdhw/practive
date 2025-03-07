@@ -10,6 +10,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.practive.MainActivity
 import com.example.practive.R
 
 class Admin : AppCompatActivity() {
@@ -34,6 +35,11 @@ class Admin : AppCompatActivity() {
         b2h = findViewById(R.id.back2home)
 
         val ent = Intent(this, adminUI::class.java)
+        val bk2 = Intent(this,MainActivity::class.java )
+
+        b2h.setOnClickListener{
+            startActivity(bk2)
+        }
 
         adbtn.setOnClickListener {
 

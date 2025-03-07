@@ -35,4 +35,23 @@
     <string name="adbooks">BOOKS</string>
     <string name="adtada">TADA</string>
     <string name="adadd">ADD</string>
+    <string name="add1">ADD</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="book_name">Book Name</string>
+    <string name="author">Author</string>
+    <string name="publish">Publish</string>
+    <string name="book_name1">Book Name</string>
+    <string name="author1">Author</string>
+    <string name="publish1">Publish</string>
+    <string name="publish2">Publish</string>
+    <string name="click">click</string>
+    <string name="add">Add</string>
+    <string name="title">Title</string>
+    <string name="publish_date">Publish Date</string>
+    <string name="author2">Author</string>
+    <string name="add2">Add</string>
+    <string name="title3">Title:</string>
+    <string name="author3">Author:</string>
+    <string name="published_date">Published Date:</string>
 </resources>

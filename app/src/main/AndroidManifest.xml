@@ -14,7 +14,7 @@
         android:theme="@style/Theme.Practive"
         tools:targetApi="31">
         <activity
-            android:name=".admin.addbooks"
+            android:name=".admin.insertbooks"
             android:exported="false" />
         <activity
             android:name=".admin.adacc"

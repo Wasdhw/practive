@@ -45,7 +45,6 @@ class MainActivity : AppCompatActivity() {
         userDatabase = UserDatabase.getDatabase(this)
         userDao = userDatabase.userDao()
 
-        fetchAllUsers()
 
 
         usernameInput = findViewById(R.id.username)
@@ -64,18 +63,18 @@ class MainActivity : AppCompatActivity() {
         admin.setOnClickListener {
             startActivity(Intent(this, Admin::class.java))
         }
+        // Observe user data here
+        fetchAllUsers()
     }
 
     private fun fetchAllUsers() {
-        lifecycleScope.launch(Dispatchers.IO) {
-            val users = userDao.getAllUsers()
-            withContext(Dispatchers.Main) {
-                users.forEach { user ->
-                    Log.d("UserData", "Name: ${user.fullName}, Username: ${user.username}, Password: ${user.password}")
-                }
+        userDao.getAllData().observe(this) { userList ->
+            userList?.forEach { user ->
+                Log.d("UserData", "Name: ${user.fullName}, Username: ${user.username}, Password: ${user.password}")
             }
         }
     }
+
 
 
     private fun loginUser() {
@@ -86,6 +85,7 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show()
             return
         }
+
 
         lifecycleScope.launch(Dispatchers.IO) {
             val user = userDatabase.userDao().getUserByUsername(username)
