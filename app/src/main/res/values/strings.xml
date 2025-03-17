@@ -54,4 +54,6 @@
     <string name="title3">Title:</string>
     <string name="author3">Author:</string>
     <string name="published_date">Published Date:</string>
+    <string name="book_image">Book Image</string>
+    <string name="borrow12">Borrow</string>
 </resources>

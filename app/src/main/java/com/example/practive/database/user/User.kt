@@ -1,4 +1,4 @@
-package com.example.practive.database
+package com.example.practive.database.user
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

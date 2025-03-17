@@ -41,19 +41,21 @@ android {
 }
 
 dependencies {
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.adapters)
+    implementation(libs.androidx.lifecycle.viewmodel.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
-    // ✅ Room Database Dependencies
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
-    ksp(libs.androidx.room.compiler) // ✅ Ensure KSP is properly applied
+    ksp(libs.androidx.room.compiler)
 
     // Navigation Component
     implementation(libs.androidx.navigation.fragment.ktx)
@@ -68,4 +70,5 @@ dependencies {
     implementation (libs.kotlin.stdlib.jdk7)
     api (libs.kotlinx.coroutines.core)
     api (libs.kotlinx.coroutines.android)
+
 }

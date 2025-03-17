@@ -1,9 +1,10 @@
-package com.example.practive.database
+package com.example.practive.database.book
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
+import com.example.practive.database.UserDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -22,7 +23,15 @@ class BookViewmodel(application: Application): AndroidViewModel(application) {
             repository.addBook(book)
 
         }
-
-
+    }
+    fun updateBook(book: Book) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.updateBook(book)
+        }
+    }
+    fun deleteBook(book: Book) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.deleteBook(book)
+        }
     }
 }

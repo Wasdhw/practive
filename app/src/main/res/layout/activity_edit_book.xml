@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/adinsertpage"
+    android:id="@+id/edit_book"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/greenbackground"
@@ -11,7 +11,7 @@
     tools:context=".admin.insertbooks">
 
     <ImageView
-        android:id="@+id/adsavio2"
+        android:id="@+id/adsavio6"
         android:layout_width="410dp"
         android:layout_height="281dp"
         android:layout_marginEnd="20dp"
@@ -24,78 +24,22 @@
         app:layout_constraintVertical_bias="0.042"
         app:srcCompat="@drawable/nyahalo" />
 
-    <ImageView
-        android:id="@+id/adborder2"
-        android:layout_width="393dp"
-        android:layout_height="50dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/adsavio2"
-        app:layout_constraintVertical_bias="0.296"
-        app:srcCompat="@drawable/rectangle" />
-
-    <TextView
-        android:id="@+id/adBooks2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:layout_marginBottom="19dp"
-        android:backgroundTintMode="multiply"
-        android:fontFamily="@font/jaro"
-        android:text="BOOKS"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@+id/adborder2"
-        app:layout_constraintEnd_toEndOf="@+id/adborder2"
-        app:layout_constraintHorizontal_bias="0.121"
-        app:layout_constraintStart_toStartOf="@+id/adborder2"
-        app:layout_constraintTop_toTopOf="@+id/adborder2" />
-
-    <TextView
-        android:id="@+id/adBorrow2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/jaro"
-        android:text="@string/add1"
-        android:textSize="20sp"
-        android:background="@drawable/borderui"
-        app:layout_constraintBottom_toBottomOf="@+id/adborder2"
-        app:layout_constraintEnd_toEndOf="@+id/adborder2"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="@+id/adborder2"
-        app:layout_constraintTop_toTopOf="@+id/adborder2"
-        app:layout_constraintVertical_bias="0.375" />
-
-    <TextView
-        android:id="@+id/adAccount2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/jaro"
-        android:text="@string/account3"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@+id/adborder2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.872"
-        app:layout_constraintStart_toStartOf="@+id/adborder2"
-        app:layout_constraintTop_toTopOf="@+id/adborder2"
-        app:layout_constraintVertical_bias="0.375" />
 
 
     <ImageView
-        android:id="@+id/imageView6"
-        android:layout_width="390dp"
-        android:layout_height="567dp"
-        android:background="@drawable/rectangle"
-        android:src="@drawable/rectangle"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.571"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/adborder2"
-        app:layout_constraintVertical_bias="0.0" />
+    android:id="@+id/imageView6"
+    android:layout_width="390dp"
+    android:layout_height="567dp"
+    android:layout_marginBottom="88dp"
+    android:background="@drawable/rectangle"
+    android:src="@drawable/rectangle"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.476"
+    app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
-        android:id="@+id/Title"
+        android:id="@+id/editBookTitle"
         android:layout_width="250dp"
         android:layout_height="50dp"
         android:layout_marginTop="20dp"
@@ -106,11 +50,11 @@
         app:layout_constraintBottom_toBottomOf="@+id/imageView6"
         app:layout_constraintEnd_toEndOf="@+id/imageView6"
         app:layout_constraintStart_toStartOf="@+id/imageView6"
-        app:layout_constraintTop_toBottomOf="@+id/frontview"
+        app:layout_constraintTop_toBottomOf="@+id/editphoto"
         app:layout_constraintVertical_bias="0.0" />
 
     <EditText
-        android:id="@+id/author"
+        android:id="@+id/editBookAuthor"
         android:layout_width="250dp"
         android:layout_height="50dp"
         android:layout_marginTop="20dp"
@@ -121,11 +65,11 @@
         app:layout_constraintEnd_toEndOf="@+id/imageView6"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="@+id/imageView6"
-        app:layout_constraintTop_toBottomOf="@+id/Title"
+        app:layout_constraintTop_toBottomOf="@+id/editBookTitle"
         app:layout_constraintVertical_bias="0.015" />
 
     <EditText
-        android:id="@+id/publish"
+        android:id="@+id/editBookPublish"
         android:layout_width="250dp"
         android:layout_height="50dp"
         android:layout_marginTop="20dp"
@@ -136,33 +80,48 @@
         app:layout_constraintEnd_toEndOf="@+id/imageView6"
         app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="@+id/imageView6"
-        app:layout_constraintTop_toBottomOf="@+id/author"
+        app:layout_constraintTop_toBottomOf="@+id/editBookAuthor"
         app:layout_constraintVertical_bias="0.007" />
 
     <Button
-        android:id="@+id/addbtn"
+        android:id="@+id/btnSave"
         android:layout_width="115dp"
         android:layout_height="53dp"
         android:text="@string/add2"
         app:layout_constraintBottom_toBottomOf="@+id/imageView6"
         app:layout_constraintEnd_toEndOf="@+id/imageView6"
         app:layout_constraintStart_toStartOf="@+id/imageView6"
-        app:layout_constraintTop_toBottomOf="@+id/publish"
+        app:layout_constraintTop_toBottomOf="@+id/editBookPublish"
         app:layout_constraintVertical_bias="0.41" />
 
     <ImageView
-        android:id="@+id/frontview"
+        android:id="@+id/editphoto"
         android:layout_width="221dp"
         android:layout_height="151dp"
         android:clickable="true"
         android:focusable="true"
         android:src="@android:drawable/ic_menu_gallery"
+        android:contentDescription="@string/book_image"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/imageView6"
         app:layout_constraintEnd_toEndOf="@+id/imageView6"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="@+id/imageView6"
         app:layout_constraintTop_toTopOf="@+id/imageView6"
         app:layout_constraintVertical_bias="0.146" />
+
+    <ImageButton
+        android:id="@+id/deleteBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="239dp"
+        app:layout_constraintBottom_toBottomOf="@+id/adsavio6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.954"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/adsavio6"
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@android:drawable/btn_dialog" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

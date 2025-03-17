@@ -1,24 +1,27 @@
 package com.example.practive.database
 
 import android.annotation.SuppressLint
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.practive.R
+import com.example.practive.database.book.Book
 
-class MyListAdapter() : RecyclerView.Adapter<MyListAdapter.MyViewHolder>() {
+class MyListAdapter(private val onBookClick: (Book) -> Unit) : RecyclerView.Adapter<MyListAdapter.MyViewHolder>() {
 
-    private var bookList = emptyList<Book>()
+    private var bookList = mutableListOf<Book>()
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
         val bookTitle: TextView = itemView.findViewById(R.id.booktitle)
         val bookAuthor: TextView = itemView.findViewById(R.id.bookauthor)
         val bookPublish: TextView = itemView.findViewById(R.id.bookpublish)
-
-
+        val bookImage: ImageView = itemView.findViewById(R.id.BookImage)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -26,10 +29,7 @@ class MyListAdapter() : RecyclerView.Adapter<MyListAdapter.MyViewHolder>() {
         return MyViewHolder(view)
     }
 
-    override fun getItemCount(): Int {
-       return bookList.size
-
-    }
+    override fun getItemCount(): Int = bookList.size
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val currentItem = bookList[position]
@@ -37,16 +37,32 @@ class MyListAdapter() : RecyclerView.Adapter<MyListAdapter.MyViewHolder>() {
         holder.bookAuthor.text = currentItem.author
         holder.bookPublish.text = currentItem.publish
 
+        if (currentItem.photo != null) { // ✅ Only update image if it exists
+            val bitmap = BitmapFactory.decodeByteArray(currentItem.photo, 0, currentItem.photo!!.size)
+            holder.bookImage.setImageBitmap(bitmap)
+        }
+
+        currentItem.photo?.let {
+            val bitmap: Bitmap = BitmapFactory.decodeByteArray(it, 0, it.size)
+            holder.bookImage.setImageBitmap(bitmap)
+        }
+
+        // ✅ Handle click event
+        holder.itemView.setOnClickListener {
+            onBookClick(currentItem) // Pass the selected book
+        }
+
         val layoutParams = holder.itemView.layoutParams as ViewGroup.MarginLayoutParams
-        layoutParams.setMargins(0, 0, 0, 0)  // Ensure no extra spacing
+        layoutParams.setMargins(0, 0, 0, 0) // Ensure no extra spacing
         holder.itemView.layoutParams = layoutParams
     }
 
+
+
+
     @SuppressLint("NotifyDataSetChanged")
-    fun setData(book: List<Book>){
-        this.bookList = book
+    fun setData(book: List<Book>) {
+        bookList = book.toMutableList()
         notifyDataSetChanged()
-
     }
-
 }

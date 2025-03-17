@@ -1,59 +1,41 @@
 package com.example.practive.admin
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.widget.ListAdapter
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.practive.R
-import com.example.practive.database.BookViewmodel
 import com.example.practive.database.MyListAdapter
+import com.example.practive.database.book.BookViewmodel
+import com.example.practive.database.book.EditBookActivity
 
 class adbooks : AppCompatActivity() {
 
+    private lateinit var searchView: SearchView
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var adapter: MyListAdapter
+    private lateinit var bookViewModel: BookViewmodel
+    private lateinit var adbarrow3:TextView
+    private lateinit var adakawnt3:TextView
 
-    private lateinit var adbarrow3: TextView
-    private lateinit var adakawnt3: TextView
-    private lateinit var mUserBookViewmodel: BookViewmodel
+    private var fullBookList = mutableListOf<com.example.practive.database.book.Book>() // Store all books
 
-    @SuppressLint("MissingInflatedId", "WrongViewCast")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_adbooks)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.adbookpage)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
 
-        /* Initialize RecyclerView */
-        val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
-        val adapter = MyListAdapter()
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(this)
-
-        // Initialize ViewModel
-        mUserBookViewmodel = ViewModelProvider(this).get(BookViewmodel::class.java)
-
-        // Observe LiveData and update RecyclerView
-        mUserBookViewmodel.readAllData.observe(this) { Book ->
-            adapter.setData(Book)
-        }
+        searchView = findViewById(R.id.searchView)
+        recyclerView = findViewById(R.id.recyclerView)
 
 
         adbarrow3 = findViewById(R.id.adBorrow3)
         adakawnt3 = findViewById(R.id.adAccount3)
-
-        //RecycleView
-
 
         adbarrow3.setOnClickListener {
             startActivity(Intent(this, insertbooks::class.java))
@@ -61,5 +43,48 @@ class adbooks : AppCompatActivity() {
         adakawnt3.setOnClickListener {
             startActivity(Intent(this, adacc::class.java))
         }
+
+        // Initialize RecyclerView
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        adapter = MyListAdapter { selectedBook ->
+            val intent = Intent(this, EditBookActivity::class.java).apply {
+                putExtra("BOOK_ID", selectedBook.bookId)
+                putExtra("BOOK_TITLE", selectedBook.bookname)
+                putExtra("BOOK_AUTHOR", selectedBook.author)
+                putExtra("BOOK_PUBLISH", selectedBook.publish)
+            }
+            startActivity(intent)
+        }
+        recyclerView.adapter = adapter
+
+        // Initialize ViewModel
+        bookViewModel = ViewModelProvider(this).get(BookViewmodel::class.java)
+
+        // Observe book data
+        bookViewModel.readAllData.observe(this) { books ->
+            fullBookList.clear()
+            fullBookList.addAll(books)
+            adapter.setData(books)
+        }
+
+        // Search Filtering
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                filterBooks(newText ?: "")
+                return true
+            }
+        })
+    }
+
+    private fun filterBooks(query: String) {
+        val filteredList = fullBookList.filter {
+            it.bookname.contains(query, ignoreCase = true) ||
+                    it.author.contains(query, ignoreCase = true)
+        }
+        adapter.setData(filteredList) // Update adapter with filtered list
     }
 }

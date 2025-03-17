@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp">
+
+
+    <ImageView
+        android:id="@+id/borrow_book_cover"
+        android:layout_width="149dp"
+        android:layout_height="125dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/user"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
+
+
+    <TextView
+        android:id="@+id/borrow_book_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:text="Book Title"
+        android:textSize="20sp"
+        android:paddingEnd="2dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@id/borrow_book_cover"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:paddingStart="8dp" />
+
+
+    <TextView
+        android:id="@+id/borrow_date"
+        android:layout_width="0dp"
+        android:paddingTop="5dp"
+        android:layout_height="wrap_content"
+        android:text="Borrowed: 2025-03-14"
+        android:textSize="14dp"
+        app:layout_constraintStart_toEndOf="@id/borrow_book_cover"
+        app:layout_constraintTop_toBottomOf="@id/borrow_book_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:paddingStart="8dp" />
+
+
+    <TextView
+        android:id="@+id/return_date"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Return by: 2025-03-21"
+        android:textSize="14sp"
+        android:paddingTop="5dp"
+        android:textColor="#FF0000"
+        app:layout_constraintStart_toEndOf="@id/borrow_book_cover"
+        app:layout_constraintTop_toBottomOf="@id/borrow_date"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:paddingStart="8dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

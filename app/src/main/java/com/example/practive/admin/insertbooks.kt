@@ -1,91 +1,115 @@
 package com.example.practive.admin
 
-import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.widget.Button
 import android.widget.TextView
-import androidx.activity.enableEdgeToEdge
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.example.practive.R
-import com.example.practive.database.Book
+import com.example.practive.database.book.Book
 import com.example.practive.database.UserDatabase
 import com.example.practive.databinding.ActivityInsertbooksBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.io.ByteArrayOutputStream
 
 class insertbooks : AppCompatActivity() {
 
-    private lateinit var adbuks2: TextView
-    private lateinit var adakawnt2: TextView
-    private lateinit var addbtn: Button
+    private lateinit var binding: ActivityInsertbooksBinding
     private lateinit var bookDatabase: UserDatabase
-    private lateinit var nbinding: ActivityInsertbooksBinding
+    private var selectedImage: ByteArray? = null
+    private lateinit var adbooks1: TextView
+    private lateinit var adacc1: TextView
 
-
-    @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_insertbooks)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.adinsertpage)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-
-        }
-        nbinding = ActivityInsertbooksBinding.inflate(LayoutInflater.from(this))
-        enableEdgeToEdge()
-        setContentView(nbinding.root)
+        binding = ActivityInsertbooksBinding.inflate(LayoutInflater.from(this))
+        setContentView(binding.root)
 
         bookDatabase = UserDatabase.getDatabase(this)
-        adbuks2 = findViewById(R.id.adBooks2)
-        adakawnt2 = findViewById(R.id.adAccount2)
-        addbtn = findViewById(R.id.addbtn)
 
-        nbinding.addbtn.setOnClickListener {
-            registerBook()
-        }
+        //caller
+        adbooks1 = findViewById(R.id.adBooks2)
+        adacc1 = findViewById(R.id.adAccount2)
 
-        adbuks2.setOnClickListener {
+        adbooks1.setOnClickListener {
             startActivity(Intent(this, adbooks::class.java))
         }
-        adakawnt2.setOnClickListener {
+        adacc1.setOnClickListener {
             startActivity(Intent(this, adacc::class.java))
+        }
+
+        // Open image picker when frontview ImageView is clicked
+        binding.frontview.setOnClickListener {
+            pickImageFromGallery()
+        }
+
+        binding.addbtn.setOnClickListener {
+            registerBook()
         }
     }
 
-    private fun registerBook() {
-        val title = nbinding.Title.text.toString().trim()
-        val author = nbinding.author.text.toString().trim()
-        val publishDate = nbinding.publish.text.toString().trim()
+    // Function to pick an image from the gallery
+    private fun pickImageFromGallery() {
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        imagePickerLauncher.launch(intent)
+    }
 
-        if (title.isEmpty()) {
-            nbinding.Title.error = "Title is required"
-            return
+    private val imagePickerLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK && result.data != null) {
+            val uri = result.data!!.data
+            val inputStream = contentResolver.openInputStream(uri!!)
+            val bitmap = BitmapFactory.decodeStream(inputStream)
+
+            // Convert bitmap to byte array
+            selectedImage = bitmapToByteArray(bitmap)
+
+            // Preview image in frontview ImageView
+            binding.frontview.setImageBitmap(bitmap)
         }
-        if (author.isEmpty()) {
-            nbinding.author.error = "Author is required"
-            return
-        }
-        if (publishDate.isEmpty()) {
-            nbinding.publish.error = "Publish date is required"
+    }
+
+    private fun bitmapToByteArray(bitmap: Bitmap): ByteArray {
+        val stream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
+        return stream.toByteArray()
+    }
+
+    private fun registerBook() {
+        val title = binding.Title.text.toString().trim()
+        val author = binding.author.text.toString().trim()
+        val publishDate = binding.publish.text.toString().trim()
+
+        if (title.isEmpty() || author.isEmpty() || publishDate.isEmpty()) {
+            Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
             return
         }
 
         CoroutineScope(Dispatchers.IO).launch {
-            val book = Book(bookname = title, author = author, publish = publishDate)
+            val book = Book(
+                bookname = title,
+                author = author,
+                publish = publishDate,
+                photo = selectedImage,
+
+            )
             bookDatabase.bookDao().addBook(book)
 
             runOnUiThread {
+                Toast.makeText(this@insertbooks, "Book added successfully!", Toast.LENGTH_SHORT)
+                    .show()
                 startActivity(Intent(this@insertbooks, adbooks::class.java))
                 finish()
             }
         }
+
+     }
     }
 
-}

@@ -1,4 +1,4 @@
-package com.example.practive.database
+package com.example.practive.database.book
 
 import androidx.lifecycle.LiveData
 
@@ -10,4 +10,11 @@ class BookRepository(private val bookDao: BookDao) {
         bookDao.addBook(book)
     }
 
+    suspend fun updateBook(book: Book) {
+        bookDao.updateBook(book)
+    }
+
+    suspend fun deleteBook(book: Book) {
+        bookDao.deleteBook(book)
+    }
 }
