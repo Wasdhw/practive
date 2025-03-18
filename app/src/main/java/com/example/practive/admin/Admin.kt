@@ -1,6 +1,7 @@
 package com.example.practive.admin
 
 import android.content.Intent
+import android.graphics.Paint
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -33,9 +34,11 @@ class Admin : AppCompatActivity() {
         adminpass = findViewById(R.id.adpass)
         adbtn = findViewById(R.id.adbutton)
         b2h = findViewById(R.id.back2home)
+        b2h.paintFlags = b2h.paintFlags or Paint.UNDERLINE_TEXT_FLAG
 
         val ent = Intent(this, adminUI::class.java)
         val bk2 = Intent(this,MainActivity::class.java )
+
 
         b2h.setOnClickListener{
             startActivity(bk2)

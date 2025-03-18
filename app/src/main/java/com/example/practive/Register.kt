@@ -1,6 +1,7 @@
 package com.example.practive
 
 import android.content.Intent
+import android.graphics.Paint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.TextView
@@ -35,7 +36,9 @@ class Register : AppCompatActivity() {
 
         userDatabase = UserDatabase.getDatabase(this)
 
+
         boton = findViewById(R.id.signin)
+        boton.paintFlags = boton.paintFlags or Paint.UNDERLINE_TEXT_FLAG
         boton.setOnClickListener {
             startActivity(Intent(this, MainActivity::class.java))
         }

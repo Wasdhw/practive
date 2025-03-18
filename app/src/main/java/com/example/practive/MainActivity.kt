@@ -1,6 +1,7 @@
 package com.example.practive
 
 import android.content.Intent
+import android.graphics.Paint
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
@@ -48,6 +49,7 @@ class MainActivity : AppCompatActivity() {
         passwordInput = findViewById(R.id.passcode)
         btn = findViewById(R.id.button)
         reg = findViewById(R.id.Regis)
+        reg.paintFlags = reg.paintFlags or Paint.UNDERLINE_TEXT_FLAG
         admin = findViewById(R.id.admin)
 
         reg.setOnClickListener {
