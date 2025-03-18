@@ -70,7 +70,6 @@ class Borrow : AppCompatActivity() {
         borrowAdapter = BorrowAdapter(isAdminPage = false) { borrowItem ->
             borrowViewModel.markAsReturned(borrowItem.borrowId)
 
-            // ✅ Ensure UI updates immediately
             borrowItem.isReturned = true
             borrowAdapter.notifyDataSetChanged()
         }

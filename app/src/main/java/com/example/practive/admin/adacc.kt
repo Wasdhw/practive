@@ -72,11 +72,13 @@ class adacc : AppCompatActivity() {
             .setPositiveButton("Retrieve") { _, _ ->
                 borrowViewModel.markAsReturned(borrowItem.borrowId)
 
-                // ✅ Ensure UI updates immediately
-                borrowItem.isReturned = true
-                borrowAdapter.notifyDataSetChanged()
+                // ✅ Update item in the list
+                val updatedList = borrowAdapter.currentList.map {
+                    if (it.borrowId == borrowItem.borrowId) it.copy(isReturned = true) else it
+                }
+                borrowAdapter.submitList(updatedList) // Refresh UI properly
             }
-            .setNegativeButton("Cancel") { dialog, _ -> dialog.dismiss() }
+            .setNegativeButton("Cancel", null)
             .show()
     }
 

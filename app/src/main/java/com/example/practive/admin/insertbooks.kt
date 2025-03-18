@@ -24,11 +24,23 @@ class insertbooks : AppCompatActivity() {
     private lateinit var binding: ActivityInsertbooksBinding
     private lateinit var bookDatabase: UserDatabase
     private var selectedImage: ByteArray? = null
+    private lateinit var adbuks2:TextView
+    private lateinit var adakawnt2:TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityInsertbooksBinding.inflate(LayoutInflater.from(this))
         setContentView(binding.root)
+
+        adbuks2 = findViewById(R.id.adBooks2)
+        adakawnt2 = findViewById(R.id.adAccount2)
+
+        adbuks2.setOnClickListener {
+            startActivity(Intent(this, adbooks::class.java))
+        }
+        adakawnt2.setOnClickListener {
+            startActivity(Intent(this, adacc::class.java))
+        }
 
         bookDatabase = UserDatabase.getDatabase(this)
 

@@ -35,23 +35,11 @@ class BorrowAdapter(
         // Only allow clicking in admin mode
         if (isAdminPage) {
             holder.itemView.setOnClickListener {
-                showRetrieveDialog(holder, borrow)
+                onBookRetrieved(borrow)
             }
         }
     }
 
-    private fun showRetrieveDialog(holder: BorrowViewHolder, borrow: BorrowWithUser) {
-        val builder = AlertDialog.Builder(holder.itemView.context)
-        builder.setTitle("Retrieve Book")
-            .setMessage("Do you want to retrieve this book?")
-            .setPositiveButton("Yes") { _, _ ->
-                borrow.isReturned = true // ✅ Update local object
-                onBookRetrieved(borrow) // ✅ Persist return status to database
-                notifyDataSetChanged() // ✅ Refresh RecyclerView
-            }
-            .setNegativeButton("Cancel", null)
-            .show()
-    }
 
     class BorrowViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val bookCover: ImageView = itemView.findViewById(R.id.borrow_book_cover)
