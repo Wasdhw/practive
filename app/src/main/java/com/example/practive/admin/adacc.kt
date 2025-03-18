@@ -1,41 +1,111 @@
 package com.example.practive.admin
 
 import android.annotation.SuppressLint
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.view.View
+import android.widget.Button
+import android.widget.ProgressBar
 import android.widget.TextView
-import androidx.activity.enableEdgeToEdge
+import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.practive.MainActivity
 import com.example.practive.R
+import com.example.practive.database.borrow.BorrowAdapter
+import com.example.practive.database.borrow.BorrowViewModel
+import com.example.practive.database.borrow.BorrowWithUser
 
 class adacc : AppCompatActivity() {
 
     private lateinit var adbuks1: TextView
     private lateinit var adbarrow1: TextView
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var progressBar: ProgressBar
+    private val borrowViewModel: BorrowViewModel by viewModels()
+    private lateinit var adlogoutButton: Button
+    private lateinit var borrowAdapter: BorrowAdapter
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.activity_adacc)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.adaccountpage)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
+
+        // Initialize UI elements
         adbuks1 = findViewById(R.id.adBooks1)
         adbarrow1 = findViewById(R.id.adBorrow1)
+        recyclerView = findViewById(R.id.recyclerView12)
+        progressBar = findViewById(R.id.progressBar)
+        adlogoutButton = findViewById(R.id.adLogoutbtn)
 
+        // Setup RecyclerView
+        borrowAdapter = BorrowAdapter(isAdminPage = true) { borrowItem ->
+            showRetrieveDialog(borrowItem)
+        }
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.adapter = borrowAdapter
 
+        // Navigation Click Listeners
         adbuks1.setOnClickListener {
             startActivity(Intent(this, adbooks::class.java))
         }
-
         adbarrow1.setOnClickListener {
             startActivity(Intent(this, insertbooks::class.java))
         }
 
+        // Load All Borrow Transactions (Admin View)
+        loadAllBorrowTransactions()
+
+        adlogoutButton.setOnClickListener {
+            showLogoutConfirmationDialog()
+        }
+    }
+
+    private fun showRetrieveDialog(borrowItem: BorrowWithUser) {
+        AlertDialog.Builder(this)
+            .setTitle("Retrieve Book")
+            .setMessage("Do you want to retrieve ${borrowItem.bookTitle}?")
+            .setPositiveButton("Retrieve") { _, _ ->
+                borrowViewModel.markAsReturned(borrowItem.borrowId)
+
+                // ✅ Ensure UI updates immediately
+                borrowItem.isReturned = true
+                borrowAdapter.notifyDataSetChanged()
+            }
+            .setNegativeButton("Cancel") { dialog, _ -> dialog.dismiss() }
+            .show()
+    }
+
+    private fun showLogoutConfirmationDialog() {
+        AlertDialog.Builder(this)
+            .setTitle("Logout")
+            .setMessage("Are you sure you want to log out?")
+            .setPositiveButton("Yes") { _, _ -> logout() }
+            .setNegativeButton("No") { dialog, _ -> dialog.dismiss() }
+            .show()
+    }
+
+    private fun logout() {
+        val sharedPreferences = getSharedPreferences("UserSession", MODE_PRIVATE)
+        sharedPreferences.edit().clear().apply()
+
+        val intent = Intent(this, MainActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        finish()
+    }
+
+    private fun loadAllBorrowTransactions() {
+        progressBar.visibility = View.VISIBLE
+
+        borrowViewModel.getAllBorrowsWithUsers().observe(this) { borrowList ->
+            progressBar.visibility = View.GONE
+            borrowAdapter.submitList(borrowList)
+            borrowAdapter.notifyDataSetChanged() // ✅ Refresh UI
+        }
     }
 }

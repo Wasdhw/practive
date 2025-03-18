@@ -77,6 +77,22 @@
             app:layout_constraintTop_toBottomOf="@+id/bookauthor"
             app:layout_constraintVertical_bias="0.0" />
 
+        <TextView
+            android:id="@+id/copies"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="5dp"
+            android:paddingStart="8dp"
+            android:text="Available:"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.089"
+            app:layout_constraintStart_toEndOf="@+id/BookImage"
+            app:layout_constraintTop_toBottomOf="@+id/bookauthor"
+            app:layout_constraintVertical_bias="0.0" />
+
+
 
     </LinearLayout>
 

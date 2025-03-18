@@ -10,6 +10,17 @@
     android:backgroundTintMode="multiply"
     tools:context=".admin.adacc">
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="63dp"
+        android:layout_height="41dp"
+        android:layout_centerInParent="true"
+        android:visibility="visible"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="10dp"
+        tools:layout_editor_absoluteY="27dp" />
+
     <ImageView
         android:id="@+id/adsavio1"
         android:layout_width="410dp"
@@ -71,7 +82,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/borderui"
         android:fontFamily="@font/jaro"
-        android:text="@string/account4"
+        android:text="@string/book_log"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/adborder1"
         app:layout_constraintEnd_toEndOf="parent"
@@ -79,31 +90,40 @@
         app:layout_constraintStart_toStartOf="@+id/adborder1"
         app:layout_constraintTop_toTopOf="@+id/adborder1"
         app:layout_constraintVertical_bias="0.375" />
-
-    <ScrollView
-        android:layout_width="366dp"
-        android:layout_height="532dp"
-        android:background="@drawable/rectangle"
+    <Button
+        android:id="@+id/adLogoutbtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#95C3A4"
+        android:text="Logout"
+        android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.981"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/adBorrow1" >
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.043" />
 
 
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView12"
+        android:layout_width="390dp"
+        android:layout_height="567dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/rectangle"
+        android:overScrollMode="always"
+        android:clickable="true"
+        android:focusable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.476"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/adborder1"
+        app:layout_constraintVertical_bias="0.0">
 
-        </LinearLayout>
-
-
-
-    </ScrollView>
-
-
+    </androidx.recyclerview.widget.RecyclerView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

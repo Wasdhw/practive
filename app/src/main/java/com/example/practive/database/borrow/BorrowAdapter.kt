@@ -1,5 +1,7 @@
 package com.example.practive.database.borrow
 
+import android.app.AlertDialog
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Log
 import android.view.LayoutInflater
@@ -14,7 +16,12 @@ import com.example.practive.R
 import java.text.SimpleDateFormat
 import java.util.*
 
-class BorrowAdapter : ListAdapter<BorrowRecord, BorrowAdapter.BorrowViewHolder>(BorrowDiffCallback()) {
+class BorrowAdapter(
+    private val isAdminPage: Boolean, // Admin mode flag
+    private val onBookRetrieved: (BorrowWithUser) -> Unit // Callback when book is retrieved
+) : ListAdapter<BorrowWithUser, BorrowAdapter.BorrowViewHolder>(BorrowDiffCallback()) {
+
+    private val retrievedBooks = mutableSetOf<Int>() // Store retrieved book IDs
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BorrowViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_borrow, parent, false)
@@ -22,9 +29,28 @@ class BorrowAdapter : ListAdapter<BorrowRecord, BorrowAdapter.BorrowViewHolder>(
     }
 
     override fun onBindViewHolder(holder: BorrowViewHolder, position: Int) {
-        val borrow: BorrowRecord = getItem(position)
-        Log.d("BorrowAdapter", "Binding book: ${borrow.bookTitle}, Image Size: ${borrow.bookPhoto?.size ?: 0}")
-        holder.bind(borrow)
+        val borrow: BorrowWithUser = getItem(position)
+        holder.bind(borrow, retrievedBooks.contains(borrow.borrowId))
+
+        // Only allow clicking in admin mode
+        if (isAdminPage) {
+            holder.itemView.setOnClickListener {
+                showRetrieveDialog(holder, borrow)
+            }
+        }
+    }
+
+    private fun showRetrieveDialog(holder: BorrowViewHolder, borrow: BorrowWithUser) {
+        val builder = AlertDialog.Builder(holder.itemView.context)
+        builder.setTitle("Retrieve Book")
+            .setMessage("Do you want to retrieve this book?")
+            .setPositiveButton("Yes") { _, _ ->
+                borrow.isReturned = true // ✅ Update local object
+                onBookRetrieved(borrow) // ✅ Persist return status to database
+                notifyDataSetChanged() // ✅ Refresh RecyclerView
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
     }
 
     class BorrowViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -32,37 +58,48 @@ class BorrowAdapter : ListAdapter<BorrowRecord, BorrowAdapter.BorrowViewHolder>(
         private val bookTitle: TextView = itemView.findViewById(R.id.borrow_book_title)
         private val borrowDate: TextView = itemView.findViewById(R.id.borrow_date)
         private val returnDate: TextView = itemView.findViewById(R.id.return_date)
+        private val username: TextView = itemView.findViewById(R.id.borrow_username)
+        private val checkMark: ImageView = itemView.findViewById(R.id.check_mark) // ✅ Green check
 
-        fun bind(borrow: BorrowRecord) {
-            bookTitle.text = borrow.bookTitle
-            borrowDate.text = "Borrowed: ${formatDate(borrow.borrowDate)}"
-            returnDate.text = "Return by: ${formatDate(borrow.returnDate)}"
+        fun bind(borrowWithUser: BorrowWithUser, isRetrieved: Boolean) {
+            bookTitle.text = borrowWithUser.bookTitle
+            borrowDate.text = "Borrowed: ${formatDate(borrowWithUser.borrowDate)}"
+            returnDate.text = "Return by: ${formatDate(borrowWithUser.returnDate)}"
+            username.text = "Borrowed by: ${borrowWithUser.username}"
 
-            // Load book cover from database BLOB
-            if (borrow.bookPhoto != null && borrow.bookPhoto!!.isNotEmpty()) {
-                val bitmap = BitmapFactory.decodeByteArray(borrow.bookPhoto, 0, borrow.bookPhoto!!.size)
+            val bitmap = borrowWithUser.bookPhoto?.let { decodeBitmap(it) }
+            if (bitmap != null) {
                 bookCover.setImageBitmap(bitmap)
             } else {
-                Log.e("BorrowAdapter", "No image found for ${borrow.bookTitle}, using default image.")
                 bookCover.setImageResource(R.drawable.user) // Default placeholder image
             }
+
+            // Show or hide green check ✅
+            checkMark.visibility = if (borrowWithUser.isReturned) View.VISIBLE else View.GONE
         }
 
         private fun formatDate(timestamp: Long?): String {
-            return if (timestamp != null) {
-                SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(Date(timestamp))
-            } else {
-                "Unknown Date"
+            return timestamp?.let {
+                SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(Date(it))
+            } ?: "Unknown Date"
+        }
+
+        private fun decodeBitmap(imageData: ByteArray): Bitmap? {
+            return try {
+                BitmapFactory.decodeByteArray(imageData, 0, imageData.size)
+            } catch (e: Exception) {
+                Log.e("BorrowAdapter", "Error decoding bitmap: ${e.message}")
+                null
             }
         }
     }
 
-    class BorrowDiffCallback : DiffUtil.ItemCallback<BorrowRecord>() {
-        override fun areItemsTheSame(oldItem: BorrowRecord, newItem: BorrowRecord): Boolean {
-            return oldItem.bookId == newItem.bookId
+    class BorrowDiffCallback : DiffUtil.ItemCallback<BorrowWithUser>() {
+        override fun areItemsTheSame(oldItem: BorrowWithUser, newItem: BorrowWithUser): Boolean {
+            return oldItem.borrowId == newItem.borrowId
         }
 
-        override fun areContentsTheSame(oldItem: BorrowRecord, newItem: BorrowRecord): Boolean {
+        override fun areContentsTheSame(oldItem: BorrowWithUser, newItem: BorrowWithUser): Boolean {
             return oldItem == newItem
         }
     }

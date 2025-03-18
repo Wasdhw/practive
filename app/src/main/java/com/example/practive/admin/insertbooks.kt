@@ -24,8 +24,6 @@ class insertbooks : AppCompatActivity() {
     private lateinit var binding: ActivityInsertbooksBinding
     private lateinit var bookDatabase: UserDatabase
     private var selectedImage: ByteArray? = null
-    private lateinit var adbooks1: TextView
-    private lateinit var adacc1: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,18 +32,6 @@ class insertbooks : AppCompatActivity() {
 
         bookDatabase = UserDatabase.getDatabase(this)
 
-        //caller
-        adbooks1 = findViewById(R.id.adBooks2)
-        adacc1 = findViewById(R.id.adAccount2)
-
-        adbooks1.setOnClickListener {
-            startActivity(Intent(this, adbooks::class.java))
-        }
-        adacc1.setOnClickListener {
-            startActivity(Intent(this, adacc::class.java))
-        }
-
-        // Open image picker when frontview ImageView is clicked
         binding.frontview.setOnClickListener {
             pickImageFromGallery()
         }
@@ -55,7 +41,6 @@ class insertbooks : AppCompatActivity() {
         }
     }
 
-    // Function to pick an image from the gallery
     private fun pickImageFromGallery() {
         val intent = Intent(Intent.ACTION_PICK)
         intent.type = "image/*"
@@ -67,11 +52,7 @@ class insertbooks : AppCompatActivity() {
             val uri = result.data!!.data
             val inputStream = contentResolver.openInputStream(uri!!)
             val bitmap = BitmapFactory.decodeStream(inputStream)
-
-            // Convert bitmap to byte array
             selectedImage = bitmapToByteArray(bitmap)
-
-            // Preview image in frontview ImageView
             binding.frontview.setImageBitmap(bitmap)
         }
     }
@@ -86,11 +67,14 @@ class insertbooks : AppCompatActivity() {
         val title = binding.Title.text.toString().trim()
         val author = binding.author.text.toString().trim()
         val publishDate = binding.publish.text.toString().trim()
+        val totalCopiesStr = binding.totalCopies.text.toString().trim()
 
-        if (title.isEmpty() || author.isEmpty() || publishDate.isEmpty()) {
+        if (title.isEmpty() || author.isEmpty() || publishDate.isEmpty() || totalCopiesStr.isEmpty()) {
             Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
             return
         }
+
+        val totalCopies = totalCopiesStr.toIntOrNull() ?: 1
 
         CoroutineScope(Dispatchers.IO).launch {
             val book = Book(
@@ -98,7 +82,8 @@ class insertbooks : AppCompatActivity() {
                 author = author,
                 publish = publishDate,
                 photo = selectedImage,
-
+                totalCopies = totalCopies,
+                borrowCount = 0
             )
             bookDatabase.bookDao().addBook(book)
 
@@ -109,7 +94,5 @@ class insertbooks : AppCompatActivity() {
                 finish()
             }
         }
-
-     }
     }
-
+}

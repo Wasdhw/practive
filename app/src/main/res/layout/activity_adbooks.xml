@@ -74,7 +74,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/jaro"
-        android:text="@string/account2"
+        android:text="@string/book_log32"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/adborder3"
         app:layout_constraintEnd_toEndOf="parent"

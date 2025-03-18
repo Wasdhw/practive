@@ -71,7 +71,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/jaro"
-        android:text="@string/account3"
+        android:text="@string/book_log12"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/adborder2"
         app:layout_constraintEnd_toEndOf="parent"
@@ -149,6 +149,20 @@
         app:layout_constraintStart_toStartOf="@+id/imageView6"
         app:layout_constraintTop_toBottomOf="@+id/publish"
         app:layout_constraintVertical_bias="0.41" />
+
+    <EditText
+        android:id="@+id/totalCopies"
+        android:layout_width="80dp"
+        android:layout_height="43dp"
+        android:hint=" Stock"
+        android:inputType="number"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.951"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/adborder2"
+        app:layout_constraintVertical_bias="0.0" />
 
     <ImageView
         android:id="@+id/frontview"

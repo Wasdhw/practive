@@ -14,25 +14,27 @@ class BorrowViewModel(application: Application) : AndroidViewModel(application) 
     private val bookDao = UserDatabase.getDatabase(application).bookDao()
 
     fun borrowBook(userId: Int, bookId: Int, returnDays: Int = 7) {
+        Log.d("BorrowViewModel", "📚 Borrow request received for User ID: $userId and Book ID: $bookId")
+
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 val bookTitle = bookDao.getBookTitle(bookId) ?: "Unknown Title"
-                val bookPhoto = bookDao.getBookPhoto(bookId) // ✅ Fix: Retrieve the book cover photo
+                val bookPhoto = bookDao.getBookPhoto(bookId)
 
                 val borrow = BorrowRecord(
+                    borrowId = 0,
                     userId = userId,
                     bookId = bookId,
                     bookTitle = bookTitle,
                     borrowDate = System.currentTimeMillis(),
                     returnDate = System.currentTimeMillis() + (returnDays * 24 * 60 * 60 * 1000),
                     isReturned = false,
-                    bookPhoto = bookPhoto // ✅ Fix: Pass bookPhoto (BLOB)
+                    bookPhoto = bookPhoto
                 )
-
                 borrowDao.insertBorrow(borrow)
-                Log.d("BorrowViewModel", "Inserted new borrow record: $borrow")
+                Log.d("BorrowViewModel", "✅ Inserted new borrow record: $borrow")
             } catch (e: Exception) {
-                Log.e("BorrowViewModel", "Error borrowing book", e)
+                Log.e("BorrowViewModel", "❌ Error borrowing book", e)
             }
         }
     }
@@ -41,11 +43,31 @@ class BorrowViewModel(application: Application) : AndroidViewModel(application) 
         return borrowDao.isBookBorrowed(userId, bookId) != null
     }
 
-    fun getUserBorrows(userId: Int): LiveData<List<BorrowRecord>> {
-        return borrowDao.getUserBorrows(userId).also {
-            it.observeForever { list ->
-                Log.d("BorrowViewModel", "Retrieved ${list.size} borrowed books for user ID: $userId")
-            }
+    suspend fun getBorrowCount(bookId: Int): Int = bookDao.getBorrowCount(bookId)
+
+    suspend fun getTotalCopies(bookId: Int): Int = bookDao.getTotalCopies(bookId)
+
+
+    suspend fun incrementBorrowCount(bookId: Int) {
+        bookDao.incrementBorrowCount(bookId)
+    }
+
+    fun markAsReturned(borrowId: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            borrowDao.updateReturnStatus(borrowId, true)
+            Log.d("BorrowViewModel", "✅ Book with Borrow ID: $borrowId marked as returned")
+
+            // Fetch updated list (forces LiveData to refresh)
+            val updatedList = borrowDao.getAllBorrowsWithUsers().value
+            Log.d("BorrowViewModel", "📌 Updated Borrow List: $updatedList")
         }
+    }
+
+    fun getAllBorrowsWithUsers(): LiveData<List<BorrowWithUser>> {
+        return borrowDao.getAllBorrowsWithUsers()
+    }
+
+    fun getUserBorrows(userId: Int): LiveData<List<BorrowWithUser>> {
+        return borrowDao.getUserBorrowsWithUsers(userId)
     }
 }

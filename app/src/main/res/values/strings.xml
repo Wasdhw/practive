@@ -56,4 +56,9 @@
     <string name="published_date">Published Date:</string>
     <string name="book_image">Book Image</string>
     <string name="borrow12">Borrow</string>
+    <string name="book_log">BOOK LOG</string>
+    <string name="book_log1">book_log</string>
+    <string name="book_log2">book_log</string>
+    <string name="book_log12">BOOK LOG</string>
+    <string name="book_log32">BOOK LOG</string>
 </resources>

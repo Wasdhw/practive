@@ -2,6 +2,7 @@ package MAINUI
 
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.Paint
 import android.os.Bundle
 import android.widget.Button
@@ -28,6 +29,10 @@ class Account : AppCompatActivity() {
     private lateinit var logoutButton: Button
     private lateinit var updateButton: Button
     private lateinit var userViewModel: UserViewModel
+    private lateinit var buks1: TextView
+    private lateinit var barrow1: TextView
+    private lateinit var akawnt1: TextView
+    private lateinit var sharedPreferences: SharedPreferences  // SharedPreferences instance
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,22 +47,41 @@ class Account : AppCompatActivity() {
         val newPasswordEditText: EditText = findViewById(R.id.newpass)
         val confirmPasswordEditText: EditText = findViewById(R.id.confirmpass)
 
-        logoutButton.paintFlags = logoutButton.paintFlags or Paint.UNDERLINE_TEXT_FLAG
+        buks1 = findViewById(R.id.Books1)
+        barrow1 = findViewById(R.id.Borrow1)
+        akawnt1 = findViewById(R.id.Account1)
 
+        // Initialize SharedPreferences
+        sharedPreferences = getSharedPreferences("UserSession", MODE_PRIVATE)
+
+        barrow1.setOnClickListener {
+            startActivity(Intent(this, Borrow::class.java))
+        }
+        buks1.setOnClickListener {
+            startActivity(Intent(this, Books::class.java))
+        }
+
+        logoutButton.paintFlags = logoutButton.paintFlags or Paint.UNDERLINE_TEXT_FLAG
 
         val userDao = UserDatabase.getDatabase(this).userDao()
         val repository = UserRepository(userDao)
         val viewModelFactory = UserViewModelFactory(repository)
         userViewModel = ViewModelProvider(this, viewModelFactory)[UserViewModel::class.java]
 
-
-        val userId = 1
-        userViewModel.getUserById(userId).observe(this, Observer { user ->
-            user?.let {
-                fullNameTextView.text = it.fullName
-                usernameTextView.text = it.username
-            }
-        })
+        // 🔥 Get Logged-in User ID from SharedPreferences
+        val userId = sharedPreferences.getInt("USER_ID", -1)
+        if (userId == -1) {
+            Toast.makeText(this, "User not logged in!", Toast.LENGTH_SHORT).show()
+            logout()  // Force logout if no user is found
+        } else {
+            // Fetch User Details
+            userViewModel.getUserById(userId).observe(this, Observer { user ->
+                user?.let {
+                    fullNameTextView.text = it.fullName
+                    usernameTextView.text = it.username
+                }
+            })
+        }
 
         updateButton.setOnClickListener {
             val currentPassword = currentPasswordEditText.text.toString().trim()
@@ -72,12 +96,11 @@ class Account : AppCompatActivity() {
 
                 if (newPassword == confirmPassword) {
                     lifecycleScope.launch {
-                        val user = userViewModel.getUserByIdSync(userId) // Fetch user synchronously
+                        val user = userViewModel.getUserByIdSync(userId)
                         if (user != null && user.password == currentPassword) {
                             userViewModel.updatePassword(userId, newPassword)
                             Toast.makeText(this@Account, "Password updated successfully!", Toast.LENGTH_LONG).show()
                             logout()
-
                         } else {
                             Toast.makeText(this@Account, "Incorrect current password!", Toast.LENGTH_SHORT).show()
                         }
@@ -89,7 +112,6 @@ class Account : AppCompatActivity() {
                 Toast.makeText(this@Account, "All password fields must be filled!", Toast.LENGTH_SHORT).show()
             }
         }
-
 
         // Logout Button Click Listener
         logoutButton.setOnClickListener {
@@ -111,8 +133,7 @@ class Account : AppCompatActivity() {
     }
 
     private fun logout() {
-        // Clear stored user session (if using SharedPreferences)
-        val sharedPreferences = getSharedPreferences("UserSession", MODE_PRIVATE)
+        // Clear stored user session
         sharedPreferences.edit().clear().apply()
 
         // Navigate back to the login screen

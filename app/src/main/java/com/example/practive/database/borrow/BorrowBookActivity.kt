@@ -1,8 +1,10 @@
 package com.example.practive.database.borrow
 
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
@@ -11,6 +13,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.practive.R
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class BorrowBookActivity : AppCompatActivity() {
@@ -19,6 +22,15 @@ class BorrowBookActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_borrow_book)
+
+        val sharedPreferences = getSharedPreferences("UserSession", Context.MODE_PRIVATE)
+        val userId = sharedPreferences.getInt("USER_ID", -1)
+
+        if (userId == -1) {
+            Toast.makeText(this, "Error: User not logged in", Toast.LENGTH_LONG).show()
+            finish()
+            return
+        }
 
         val bookId = intent.getIntExtra("BOOK_ID", -1)
         val bookTitle = intent.getStringExtra("BOOK_TITLE") ?: "Unknown Title"
@@ -44,22 +56,41 @@ class BorrowBookActivity : AppCompatActivity() {
         }
 
         borrowButton.setOnClickListener {
-            if (bookId != -1) {
-                val userId = 1 // Change this to fetch actual user ID
-                lifecycleScope.launch {
-                    val isBorrowed = borrowViewModel.isBookAlreadyBorrowed(userId, bookId)
-                    if (isBorrowed) {
-                        Toast.makeText(this@BorrowBookActivity, "You have already borrowed this book!", Toast.LENGTH_LONG).show()
-                        finish()
-
-                    } else {
-                        borrowViewModel.borrowBook(userId, bookId)
-                        Toast.makeText(this@BorrowBookActivity, "Book Borrowed Successfully!", Toast.LENGTH_LONG).show()
-                        finish()
-                    }
-                }
-            } else {
+            if (bookId == -1) {
                 Toast.makeText(this, "Error: Invalid Book ID", Toast.LENGTH_LONG).show()
+                return@setOnClickListener
+            }
+
+            borrowButton.isEnabled = false // Prevent multiple clicks
+
+            lifecycleScope.launch {
+                try {
+                    val borrowCount = borrowViewModel.getBorrowCount(bookId) ?: 0
+                    val totalCopies = borrowViewModel.getTotalCopies(bookId) ?: 1
+
+                    Log.d("BorrowBookActivity", "Debug: borrowCount=$borrowCount, totalCopies=$totalCopies")
+
+                    when {
+                        borrowViewModel.isBookAlreadyBorrowed(userId, bookId) -> {
+                            Toast.makeText(this@BorrowBookActivity, "You have already borrowed this book!", Toast.LENGTH_LONG).show()
+                        }
+                        borrowCount >= totalCopies -> {
+                            Toast.makeText(this@BorrowBookActivity, "This book is no longer available!", Toast.LENGTH_LONG).show()
+                        }
+                        else -> {
+                            borrowViewModel.borrowBook(userId, bookId)
+                            borrowViewModel.incrementBorrowCount(bookId)
+
+                            Toast.makeText(this@BorrowBookActivity, "Book borrowed successfully!", Toast.LENGTH_LONG).show()
+                        }
+                    }
+                } catch (e: Exception) {
+                    Log.e("BorrowBookActivity", "Error: ${e.message}", e)
+                    Toast.makeText(this@BorrowBookActivity, "Failed to borrow book. Try again.", Toast.LENGTH_LONG).show()
+                } finally {
+                    delay(1000) // Add 1-second delay before closing the activity
+                    finish()
+                }
             }
         }
     }

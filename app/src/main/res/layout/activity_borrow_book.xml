@@ -7,6 +7,9 @@
     android:layout_height="match_parent"
     android:background="@drawable/greenbackground"
     android:backgroundTint="#A8D8B8"
+    android:preserveLegacyExternalStorage="true"
+    android:allowBackup="true"
+    android:process=":main"
     android:backgroundTintMode="multiply"
     tools:context="database.borrow.BorrowBookActivity">
 

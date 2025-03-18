@@ -22,6 +22,7 @@ class MyListAdapter(private val onBookClick: (Book) -> Unit) : RecyclerView.Adap
         val bookAuthor: TextView = itemView.findViewById(R.id.bookauthor)
         val bookPublish: TextView = itemView.findViewById(R.id.bookpublish)
         val bookImage: ImageView = itemView.findViewById(R.id.BookImage)
+        val copies: TextView = itemView.findViewById(R.id.copies)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -34,10 +35,11 @@ class MyListAdapter(private val onBookClick: (Book) -> Unit) : RecyclerView.Adap
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val currentItem = bookList[position]
         holder.bookTitle.text = currentItem.bookname
-        holder.bookAuthor.text = currentItem.author
-        holder.bookPublish.text = currentItem.publish
+        holder.bookAuthor.text = "Author: ${currentItem.author}"
+        holder.bookPublish.text = "Published: ${currentItem.publish}"
+        holder.copies.text = "Stock: ${currentItem.totalCopies.toString()}"
 
-        if (currentItem.photo != null) { // ✅ Only update image if it exists
+        if (currentItem.photo != null) {
             val bitmap = BitmapFactory.decodeByteArray(currentItem.photo, 0, currentItem.photo!!.size)
             holder.bookImage.setImageBitmap(bitmap)
         }
@@ -47,7 +49,7 @@ class MyListAdapter(private val onBookClick: (Book) -> Unit) : RecyclerView.Adap
             holder.bookImage.setImageBitmap(bitmap)
         }
 
-        // ✅ Handle click event
+
         holder.itemView.setOnClickListener {
             onBookClick(currentItem) // Pass the selected book
         }

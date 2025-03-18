@@ -83,19 +83,34 @@ class MainActivity : AppCompatActivity() {
             return
         }
 
-
         lifecycleScope.launch(Dispatchers.IO) {
             val user = userDatabase.userDao().getUserByUsername(username)
             runOnUiThread {
-                if (user == null) {
+                if (user == null ) {
                     Toast.makeText(this@MainActivity, "User does not exist!", Toast.LENGTH_SHORT).show()
                 } else if (user.password == password) {
-                    startActivity(Intent(this@MainActivity, Login::class.java))
+                    // ✅ Save user ID in SharedPreferences
+
+                    val sharedPreferences = getSharedPreferences("UserSession", MODE_PRIVATE)
+                    val editor = sharedPreferences.edit()
+                    editor.putInt("USER_ID", user.id)
+                    editor.commit()
+                    Log.d("LoginActivity", "✅ Saved USER_ID to SharedPreferences: ${user.id}")
+
+
+                    val savedUserId = sharedPreferences.getInt("USER_ID", -1)
+                    Log.d("LoginActivity", "✅ Confirming saved USER_ID: $savedUserId")
+
+                    // ✅ Redirect to Login activity
+                    val intent = Intent(this@MainActivity, Login::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    startActivity(intent)
+                    finish() // Close this activity to prevent going back
                 } else {
                     Toast.makeText(this@MainActivity, "Incorrect password!", Toast.LENGTH_SHORT).show()
                 }
             }
         }
-
     }
+
 }

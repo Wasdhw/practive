@@ -2,6 +2,7 @@ package com.example.practive.database.borrow
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.ColumnInfo
 
 @Entity(tableName = "borrow_table")
 data class BorrowRecord(

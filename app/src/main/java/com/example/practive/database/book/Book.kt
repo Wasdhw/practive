@@ -12,6 +12,9 @@ data class Book(
     val author: String,
     val publish: String,
     val photo: ByteArray?, // Store image as a BLOB
+    val totalCopies: Int,
+    val borrowCount: Int = 0,
+
 
 ) {
     override fun equals(other: Any?): Boolean {

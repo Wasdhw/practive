@@ -13,10 +13,10 @@ class UserViewModel(private val repository: UserRepository) : ViewModel() {
         return repository.getUserByIdSync(userId)
     }
 
-
     fun getUserById(userId: Int): LiveData<User> {
         return repository.getUserById(userId)
     }
+
     fun updatePassword(userId: Int, newPassword: String) {
         viewModelScope.launch {
             repository.updateUserPassword(userId, newPassword)
