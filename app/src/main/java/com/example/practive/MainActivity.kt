@@ -19,53 +19,59 @@ import com.example.practive.database.user.UserDao
 import com.example.practive.database.UserDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var usernameInput: EditText
     private lateinit var passwordInput: EditText
-    private lateinit var btn: Button
-    private lateinit var reg: TextView
-    private lateinit var userDatabase: UserDatabase
+    private lateinit var loginButton: Button
+    private lateinit var registerText: TextView
+    private lateinit var adminIcon: ImageView
     private lateinit var userDao: UserDao
-    private lateinit var admin: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.Login)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
 
-        userDatabase = UserDatabase.getDatabase(this)
-        userDao = userDatabase.userDao()
-
-
-
+        // Initialize UI elements
         usernameInput = findViewById(R.id.username)
         passwordInput = findViewById(R.id.passcode)
-        btn = findViewById(R.id.button)
-        reg = findViewById(R.id.Regis)
-        reg.paintFlags = reg.paintFlags or Paint.UNDERLINE_TEXT_FLAG
-        admin = findViewById(R.id.admin)
+        loginButton = findViewById(R.id.button)
+        registerText = findViewById(R.id.Regis)
+        adminIcon = findViewById(R.id.admin)
 
-        reg.setOnClickListener {
+        registerText.paintFlags = registerText.paintFlags or Paint.UNDERLINE_TEXT_FLAG
+
+        // Initialize database
+        val userDatabase = UserDatabase.getDatabase(this)
+        userDao = userDatabase.userDao()
+
+        // Click Listeners
+        registerText.setOnClickListener {
             startActivity(Intent(this, Register::class.java))
         }
 
-        btn.setOnClickListener {
+        loginButton.setOnClickListener {
             loginUser()
         }
-        admin.setOnClickListener {
+
+        adminIcon.setOnClickListener {
             startActivity(Intent(this, Admin::class.java))
         }
-        // Observe user data here
+
+        // Fetch and log user data
         fetchAllUsers()
     }
 
+    // Fetch all users from the database
     private fun fetchAllUsers() {
         userDao.getAllData().observe(this) { userList ->
             userList?.forEach { user ->
@@ -74,11 +80,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
-
+    // Handle user login
     private fun loginUser() {
-        val username = usernameInput.text.toString()
-        val password = passwordInput.text.toString()
+        val username = usernameInput.text.toString().trim()
+        val password = passwordInput.text.toString().trim()
 
         if (username.isEmpty() || password.isEmpty()) {
             Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show()
@@ -86,33 +91,31 @@ class MainActivity : AppCompatActivity() {
         }
 
         lifecycleScope.launch(Dispatchers.IO) {
-            val user = userDatabase.userDao().getUserByUsername(username)
-            runOnUiThread {
-                if (user == null ) {
-                    Toast.makeText(this@MainActivity, "User does not exist!", Toast.LENGTH_SHORT).show()
-                } else if (user.password == password) {
-                    // ✅ Save user ID in SharedPreferences
+            val user = userDao.getUserByUsername(username)
 
-                    val sharedPreferences = getSharedPreferences("UserSession", MODE_PRIVATE)
-                    val editor = sharedPreferences.edit()
-                    editor.putInt("USER_ID", user.id)
-                    editor.commit()
-                    Log.d("LoginActivity", "✅ Saved USER_ID to SharedPreferences: ${user.id}")
+            withContext(Dispatchers.Main) {
+                if (!isFinishing && !isDestroyed) {
+                    if (user == null) {
+                        Toast.makeText(this@MainActivity, "User does not exist!", Toast.LENGTH_SHORT).show()
+                    } else if (user.password == password) {
+                        // ✅ Save user ID in SharedPreferences
+                        val sharedPreferences = getSharedPreferences("UserSession", MODE_PRIVATE)
+                        sharedPreferences.edit().apply {
+                            putInt("USER_ID", user.id)
+                            apply()  // ✅ Use `apply()` for better performance
+                        }
+                        Log.d("LoginActivity", "✅ Saved USER_ID to SharedPreferences: ${user.id}")
 
-
-                    val savedUserId = sharedPreferences.getInt("USER_ID", -1)
-                    Log.d("LoginActivity", "✅ Confirming saved USER_ID: $savedUserId")
-
-                    // ✅ Redirect to Login activity
-                    val intent = Intent(this@MainActivity, Login::class.java)
-                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                    startActivity(intent)
-                    finish() // Close this activity to prevent going back
-                } else {
-                    Toast.makeText(this@MainActivity, "Incorrect password!", Toast.LENGTH_SHORT).show()
+                        // ✅ Redirect to Login activity
+                        val intent = Intent(this@MainActivity, Login::class.java)
+                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        startActivity(intent)
+                        finish()
+                    } else {
+                        Toast.makeText(this@MainActivity, "Incorrect password!", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         }
     }
-
 }

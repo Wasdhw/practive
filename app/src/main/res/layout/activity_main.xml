@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/Login"
     android:layout_width="match_parent"
-    android:scaleType="fitXY"
     android:layout_height="match_parent"
     android:background="@drawable/greenbackground"
     android:backgroundTint="#A8D8B8"
