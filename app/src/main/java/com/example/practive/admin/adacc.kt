@@ -25,7 +25,6 @@ class adacc : AppCompatActivity() {
     private lateinit var adbuks1: TextView
     private lateinit var adbarrow1: TextView
     private lateinit var recyclerView: RecyclerView
-    private lateinit var progressBar: ProgressBar
     private val borrowViewModel: BorrowViewModel by viewModels()
     private lateinit var adlogoutButton: Button
     private lateinit var borrowAdapter: BorrowAdapter
@@ -101,10 +100,7 @@ class adacc : AppCompatActivity() {
     }
 
     private fun loadAllBorrowTransactions() {
-        progressBar.visibility = View.VISIBLE
-
         borrowViewModel.getAllBorrowsWithUsers().observe(this) { borrowList ->
-            progressBar.visibility = View.GONE
             borrowAdapter.submitList(borrowList)
             borrowAdapter.notifyDataSetChanged() // ✅ Refresh UI
         }
