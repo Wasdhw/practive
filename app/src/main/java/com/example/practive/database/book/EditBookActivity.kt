@@ -3,7 +3,6 @@ package com.example.practive.database.book
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
@@ -83,12 +82,13 @@ class EditBookActivity : AppCompatActivity() {
                     bookAuthor.setText(existingBook.author)
                     bookPublish.setText(existingBook.publish)
 
+                    // Use Glide with override to prevent large image issues
                     Glide.with(this@EditBookActivity)
                         .load(existingBook.photo)
+                        .override(300, 300)  // Resize the image to prevent crashes
                         .placeholder(R.drawable.user) // Default image
                         .into(imageView)
 
-                    // Debugging: Log image data
                     Log.d("EditBookActivity", "Book ID: $bookId, Photo Size: ${existingBook.photo?.size ?: 0}")
                 }
             }
@@ -106,17 +106,27 @@ class EditBookActivity : AppCompatActivity() {
     private val imagePickerLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK && result.data != null) {
             val uri = result.data!!.data
+
+            // Load image and override to prevent large bitmaps
             Glide.with(this)
                 .asBitmap()
                 .load(uri)
+                .override(300, 300) // Resize the image before displaying
                 .into(imageView)
+
+            // Convert selected image to byte array
+            CoroutineScope(Dispatchers.IO).launch {
+                val bitmap = MediaStore.Images.Media.getBitmap(contentResolver, uri)
+                selectedImage = bitmapToByteArray(bitmap)
+            }
         }
     }
 
-    // Convert Bitmap to ByteArray
+    // Convert Bitmap to ByteArray (Resized)
     private fun bitmapToByteArray(bitmap: Bitmap): ByteArray {
+        val resizedBitmap = Bitmap.createScaledBitmap(bitmap, 300, 300, true) // Resize
         val stream = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
+        resizedBitmap.compress(Bitmap.CompressFormat.PNG, 80, stream) // Compress to reduce size
         return stream.toByteArray()
     }
 
@@ -149,7 +159,7 @@ class EditBookActivity : AppCompatActivity() {
         }
     }
 
-    // confirmation
+    // Confirmation dialog before deleting
     private fun confirmDelete() {
         val builder = android.app.AlertDialog.Builder(this)
         builder.setTitle("Delete Book")
@@ -159,7 +169,7 @@ class EditBookActivity : AppCompatActivity() {
         builder.create().show()
     }
 
-    // Delete
+    // Delete book
     private fun deleteBook() {
         if (bookId == -1) {
             Toast.makeText(this, "Error: Invalid book ID", Toast.LENGTH_SHORT).show()
