@@ -1,8 +1,6 @@
 package com.example.practive.database.borrow
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
@@ -12,6 +10,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.bumptech.glide.Glide
 import com.example.practive.R
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -48,12 +47,11 @@ class BorrowBookActivity : AppCompatActivity() {
         authorTextView.text = "Author: $bookAuthor"
         publishTextView.text = "Published: $bookPublish"
 
-        if (bookImageBytes != null) {
-            val bitmap: Bitmap = BitmapFactory.decodeByteArray(bookImageBytes, 0, bookImageBytes.size)
-            bookImageView.setImageBitmap(bitmap)
-        } else {
-            bookImageView.setImageResource(R.drawable.user)
-        }
+        Glide.with(this)
+            .load(bookImageBytes)
+            .override(500, 500)
+            .placeholder(R.drawable.user)
+            .into(bookImageView)
 
         borrowButton.setOnClickListener {
             if (bookId == -1) {

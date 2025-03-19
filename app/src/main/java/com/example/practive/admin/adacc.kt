@@ -39,7 +39,6 @@ class adacc : AppCompatActivity() {
         adbuks1 = findViewById(R.id.adBooks1)
         adbarrow1 = findViewById(R.id.adBorrow1)
         recyclerView = findViewById(R.id.recyclerView12)
-        progressBar = findViewById(R.id.progressBar)
         adlogoutButton = findViewById(R.id.adLogoutbtn)
 
         // Setup RecyclerView

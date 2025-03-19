@@ -2,14 +2,13 @@ package com.example.practive.admin
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
 import com.example.practive.R
 import com.example.practive.database.book.Book
 import com.example.practive.database.UserDatabase
@@ -17,15 +16,14 @@ import com.example.practive.databinding.ActivityInsertbooksBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.io.ByteArrayOutputStream
 
 class insertbooks : AppCompatActivity() {
 
     private lateinit var binding: ActivityInsertbooksBinding
     private lateinit var bookDatabase: UserDatabase
     private var selectedImage: ByteArray? = null
-    private lateinit var adbuks2:TextView
-    private lateinit var adakawnt2:TextView
+    private lateinit var adbuks2: TextView
+    private lateinit var adakawnt2: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,17 +60,12 @@ class insertbooks : AppCompatActivity() {
     private val imagePickerLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK && result.data != null) {
             val uri = result.data!!.data
-            val inputStream = contentResolver.openInputStream(uri!!)
-            val bitmap = BitmapFactory.decodeStream(inputStream)
-            selectedImage = bitmapToByteArray(bitmap)
-            binding.frontview.setImageBitmap(bitmap)
+            Glide.with(this)
+                .asBitmap()
+                .load(uri)
+                .override(500, 500)
+                .into(binding.frontview)
         }
-    }
-
-    private fun bitmapToByteArray(bitmap: Bitmap): ByteArray {
-        val stream = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
-        return stream.toByteArray()
     }
 
     private fun registerBook() {

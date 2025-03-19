@@ -20,8 +20,8 @@ class adbooks : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: MyListAdapter
     private lateinit var bookViewModel: BookViewmodel
-    private lateinit var adbarrow3:TextView
-    private lateinit var adakawnt3:TextView
+    private lateinit var adbarrow3: TextView
+    private lateinit var adakawnt3: TextView
 
     private var fullBookList = mutableListOf<com.example.practive.database.book.Book>() // Store all books
 

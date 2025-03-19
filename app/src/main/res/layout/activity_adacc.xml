@@ -5,21 +5,12 @@
     android:id="@+id/adaccountpage"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:scaleType="fitXY"
     android:background="@drawable/greenbackground"
     android:backgroundTint="#A8D8B8"
     android:backgroundTintMode="multiply"
     tools:context=".admin.adacc">
 
-    <ProgressBar
-        android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="63dp"
-        android:layout_height="41dp"
-        android:layout_centerInParent="true"
-        android:visibility="visible"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="10dp"
-        tools:layout_editor_absoluteY="27dp" />
 
     <ImageView
         android:id="@+id/adsavio1"
@@ -27,6 +18,7 @@
         android:layout_height="281dp"
         android:layout_marginEnd="20dp"
         android:contentDescription="@string/todo1"
+        android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -41,6 +33,7 @@
         android:layout_height="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:scaleType="fitCenter"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/adsavio1"
         app:layout_constraintVertical_bias="0.296"

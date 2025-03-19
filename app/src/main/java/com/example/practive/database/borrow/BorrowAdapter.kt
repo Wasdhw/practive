@@ -1,8 +1,5 @@
 package com.example.practive.database.borrow
 
-import android.app.AlertDialog
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.practive.R
 import java.text.SimpleDateFormat
 import java.util.*
@@ -40,7 +38,6 @@ class BorrowAdapter(
         }
     }
 
-
     class BorrowViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val bookCover: ImageView = itemView.findViewById(R.id.borrow_book_cover)
         private val bookTitle: TextView = itemView.findViewById(R.id.borrow_book_title)
@@ -55,12 +52,11 @@ class BorrowAdapter(
             returnDate.text = "Return by: ${formatDate(borrowWithUser.returnDate)}"
             username.text = "Borrowed by: ${borrowWithUser.username}"
 
-            val bitmap = borrowWithUser.bookPhoto?.let { decodeBitmap(it) }
-            if (bitmap != null) {
-                bookCover.setImageBitmap(bitmap)
-            } else {
-                bookCover.setImageResource(R.drawable.user) // Default placeholder image
-            }
+            Glide.with(bookCover.context)
+                .load(borrowWithUser.bookPhoto)
+                .override(500, 500)
+                .placeholder(R.drawable.user) // Default placeholder image
+                .into(bookCover)
 
             // Show or hide green check ✅
             checkMark.visibility = if (borrowWithUser.isReturned) View.VISIBLE else View.GONE
@@ -70,15 +66,6 @@ class BorrowAdapter(
             return timestamp?.let {
                 SimpleDateFormat("MMM dd, yyyy", Locale.getDefault()).format(Date(it))
             } ?: "Unknown Date"
-        }
-
-        private fun decodeBitmap(imageData: ByteArray): Bitmap? {
-            return try {
-                BitmapFactory.decodeByteArray(imageData, 0, imageData.size)
-            } catch (e: Exception) {
-                Log.e("BorrowAdapter", "Error decoding bitmap: ${e.message}")
-                null
-            }
         }
     }
 

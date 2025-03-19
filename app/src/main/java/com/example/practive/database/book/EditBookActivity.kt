@@ -11,6 +11,7 @@ import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
 import com.example.practive.R
 import com.example.practive.database.UserDatabase
 import kotlinx.coroutines.CoroutineScope
@@ -82,13 +83,10 @@ class EditBookActivity : AppCompatActivity() {
                     bookAuthor.setText(existingBook.author)
                     bookPublish.setText(existingBook.publish)
 
-                    // Check if there is a valid image
-                    if (existingBook.photo != null && existingBook.photo!!.isNotEmpty()) {
-                        val bitmap = BitmapFactory.decodeByteArray(existingBook.photo, 0, existingBook.photo!!.size)
-                        imageView.setImageBitmap(bitmap)
-                    } else {
-                        imageView.setImageResource(R.drawable.user) // Default image
-                    }
+                    Glide.with(this@EditBookActivity)
+                        .load(existingBook.photo)
+                        .placeholder(R.drawable.user) // Default image
+                        .into(imageView)
 
                     // Debugging: Log image data
                     Log.d("EditBookActivity", "Book ID: $bookId, Photo Size: ${existingBook.photo?.size ?: 0}")
@@ -108,12 +106,10 @@ class EditBookActivity : AppCompatActivity() {
     private val imagePickerLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK && result.data != null) {
             val uri = result.data!!.data
-            if (uri != null) {
-                val inputStream = contentResolver.openInputStream(uri)
-                val bitmap = BitmapFactory.decodeStream(inputStream)
-                imageView.setImageBitmap(bitmap) // Display selected image
-                selectedImage = bitmapToByteArray(bitmap) // Convert to byte array for storage
-            }
+            Glide.with(this)
+                .asBitmap()
+                .load(uri)
+                .into(imageView)
         }
     }
 
