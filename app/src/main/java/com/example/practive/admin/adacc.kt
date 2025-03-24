@@ -4,14 +4,12 @@ import android.annotation.SuppressLint
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.view.View
 import android.widget.Button
-import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.practive.MainActivity
@@ -22,32 +20,51 @@ import com.example.practive.database.borrow.BorrowWithUser
 
 class adacc : AppCompatActivity() {
 
+    private lateinit var searchView: SearchView
     private lateinit var adbuks1: TextView
     private lateinit var adbarrow1: TextView
     private lateinit var recyclerView: RecyclerView
-    private val borrowViewModel: BorrowViewModel by viewModels()
     private lateinit var adlogoutButton: Button
     private lateinit var borrowAdapter: BorrowAdapter
+    private val borrowViewModel: BorrowViewModel by viewModels()
+
+    private var originalBorrowList: List<BorrowWithUser> = emptyList() // 🔹 Store original list
 
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_adacc)
 
-        // Initialize UI elements
         adbuks1 = findViewById(R.id.adBooks1)
         adbarrow1 = findViewById(R.id.adBorrow1)
         recyclerView = findViewById(R.id.recyclerView12)
         adlogoutButton = findViewById(R.id.adLogoutbtn)
+        searchView = findViewById(R.id.searchView11)
 
-        // Setup RecyclerView
+        //  RecyclerView
         borrowAdapter = BorrowAdapter(isAdminPage = true) { borrowItem ->
             showRetrieveDialog(borrowItem)
         }
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = borrowAdapter
 
-        // Navigation Click Listeners
+
+        loadAllBorrowTransactions()
+
+        // SearchView Listener
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                filterList(query)
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                filterList(newText)
+                return true
+            }
+        })
+
+
         adbuks1.setOnClickListener {
             startActivity(Intent(this, adbooks::class.java))
         }
@@ -55,9 +72,7 @@ class adacc : AppCompatActivity() {
             startActivity(Intent(this, insertbooks::class.java))
         }
 
-        // Load All Borrow Transactions (Admin View)
-        loadAllBorrowTransactions()
-
+        // Logout Button
         adlogoutButton.setOnClickListener {
             showLogoutConfirmationDialog()
         }
@@ -74,7 +89,7 @@ class adacc : AppCompatActivity() {
                 val updatedList = borrowAdapter.currentList.map {
                     if (it.borrowId == borrowItem.borrowId) it.copy(isReturned = true) else it
                 }
-                borrowAdapter.submitList(updatedList) // Refresh UI properly
+                borrowAdapter.submitList(updatedList)
             }
             .setNegativeButton("Cancel", null)
             .show()
@@ -101,8 +116,20 @@ class adacc : AppCompatActivity() {
 
     private fun loadAllBorrowTransactions() {
         borrowViewModel.getAllBorrowsWithUsers().observe(this) { borrowList ->
+            originalBorrowList = borrowList //
             borrowAdapter.submitList(borrowList)
-            borrowAdapter.notifyDataSetChanged() // ✅ Refresh UI
+        }
+    }
+
+    private fun filterList(query: String?) {
+        if (query.isNullOrEmpty()) {
+            borrowAdapter.submitList(originalBorrowList)
+        } else {
+            val filteredList = originalBorrowList.filter {
+                it.bookTitle.contains(query, ignoreCase = true) ||
+                        it.username.contains(query, ignoreCase = true)
+            }
+            borrowAdapter.submitList(filteredList)
         }
     }
 }

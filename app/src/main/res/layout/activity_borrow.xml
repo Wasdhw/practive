@@ -12,12 +12,13 @@
 
     <ImageView
         android:id="@+id/savio2"
-        android:layout_width="410dp"
-        android:layout_height="281dp"
-        android:contentDescription="@string/todo1"
+        android:layout_width="380dp"
+        android:layout_height="250dp"
+        android:contentDescription="@string/todo"
+        android:scaleType="centerInside"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:scaleType="centerInside"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -26,15 +27,16 @@
 
     <ImageView
         android:id="@+id/border2"
-        android:layout_width="393dp"
+        android:layout_width="350dp"
         android:layout_height="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:scaleType="fitCenter"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/savio2"
-        app:layout_constraintVertical_bias="0.296"
+        app:layout_constraintVertical_bias="0.323"
         app:srcCompat="@drawable/rectangle" />
+
 
     <TextView
         android:id="@+id/Books2"
@@ -45,7 +47,7 @@
         android:backgroundTintMode="multiply"
         android:fontFamily="@font/jaro"
         android:text="BOOKS"
-        android:textSize="20sp"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/border2"
         app:layout_constraintEnd_toEndOf="@+id/border2"
         app:layout_constraintHorizontal_bias="0.121"
@@ -58,7 +60,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/jaro"
         android:text="@string/borrow3"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:background="@drawable/borderui"
         app:layout_constraintBottom_toBottomOf="@+id/border2"
         app:layout_constraintEnd_toEndOf="@+id/border2"
@@ -73,7 +75,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/jaro"
         android:text="@string/account3"
-        android:textSize="20sp"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/border2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.872"
@@ -81,11 +83,26 @@
         app:layout_constraintTop_toTopOf="@+id/border2"
         app:layout_constraintVertical_bias="0.375" />
 
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/Search123"
+        android:layout_width="350dp"
+        android:layout_height="30dp"
+        android:background="@android:drawable/editbox_background_normal"
+        android:iconifiedByDefault="false"
+        android:padding="5dp"
+        android:queryHint="Search books..."
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.454"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.278"
+        tools:ignore="MissingConstraints" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView12"
-        android:layout_width="390dp"
-        android:layout_height="567dp"
+        android:layout_width="350dp"
+        android:layout_height="475dp"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="16dp"
         android:background="@drawable/rectangle"
@@ -97,7 +114,7 @@
         app:layout_constraintHorizontal_bias="0.476"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/border2"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintVertical_bias="0.217">
 
     </androidx.recyclerview.widget.RecyclerView>
 

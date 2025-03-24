@@ -16,18 +16,19 @@
 
     <ImageView
         android:id="@+id/sdsc"
-        android:layout_width="400dp"
-        android:layout_height="287dp"
+        android:layout_width="380dp"
+        android:layout_height="281dp"
         android:layout_marginStart="13dp"
+        android:layout_marginTop="30dp"
         android:contentDescription="@string/todo"
-        android:visibility="visible"
         android:scaleType="centerInside"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.8"
+        app:layout_constraintHorizontal_bias="0.641"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.119"
+        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/nyahalo" />
 
     <EditText
@@ -50,10 +51,10 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.526"
+        app:layout_constraintHorizontal_bias="0.525"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/sdsc"
-        app:layout_constraintVertical_bias="0.451" />
+        app:layout_constraintVertical_bias="0.524" />
 
     <EditText
         android:id="@+id/adpass"
@@ -91,10 +92,10 @@
         android:text="@string/login"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/aduser"
-        app:layout_constraintVertical_bias="0.621" />
+        app:layout_constraintVertical_bias="0.561" />
 
     <TextView
         android:id="@+id/back2home"
@@ -108,10 +109,10 @@
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.514"
+        app:layout_constraintHorizontal_bias="0.571"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/adbutton"
-        app:layout_constraintVertical_bias="0.145"
+        app:layout_constraintVertical_bias="0.235"
         tools:ignore="TextSizeCheck" />
 
 

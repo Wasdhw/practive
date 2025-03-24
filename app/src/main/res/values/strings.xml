@@ -61,4 +61,6 @@
     <string name="book_log2">book_log</string>
     <string name="book_log12">BOOK LOG</string>
     <string name="book_log32">BOOK LOG</string>
+    <string name="description">Description</string>
+    <string name="description123">Description</string>
 </resources>

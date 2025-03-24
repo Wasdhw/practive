@@ -34,18 +34,22 @@ class BorrowBookActivity : AppCompatActivity() {
         val bookId = intent.getIntExtra("BOOK_ID", -1)
         val bookTitle = intent.getStringExtra("BOOK_TITLE") ?: "Unknown Title"
         val bookAuthor = intent.getStringExtra("BOOK_AUTHOR") ?: "Unknown Author"
+        val bookDesc = intent.getStringExtra("BOOK_DESC") ?: "Unknown Desc"
         val bookPublish = intent.getStringExtra("BOOK_PUBLISH") ?: "Unknown Date"
         val bookImageBytes = intent.getByteArrayExtra("BOOK_IMAGE")
+
 
         val titleTextView: TextView = findViewById(R.id.bookTitle)
         val authorTextView: TextView = findViewById(R.id.bookAuthor)
         val publishTextView: TextView = findViewById(R.id.bookPublish)
+        val descriptionTextView: TextView = findViewById(R.id.bookDesc)
         val bookImageView: ImageView = findViewById(R.id.borrowphoto)
         val borrowButton: Button = findViewById(R.id.borrowButton)
 
         titleTextView.text = "Title: $bookTitle"
         authorTextView.text = "Author: $bookAuthor"
         publishTextView.text = "Published: $bookPublish"
+        descriptionTextView.text = "$bookDesc"
 
         Glide.with(this)
             .load(bookImageBytes)

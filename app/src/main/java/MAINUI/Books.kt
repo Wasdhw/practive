@@ -96,6 +96,7 @@ class Books : AppCompatActivity() {
             putExtra("BOOK_ID", book.bookId)
             putExtra("BOOK_TITLE", book.bookname)
             putExtra("BOOK_AUTHOR", book.author)
+            putExtra("BOOK_DESC", book.desc)
             putExtra("BOOK_PUBLISH", book.publish)
 
             // Pass the image as a ByteArray

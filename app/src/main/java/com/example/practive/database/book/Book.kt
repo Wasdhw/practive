@@ -13,6 +13,7 @@ data class Book(
     val publish: String,
     val photo: ByteArray?, // Store image as a BLOB
     val totalCopies: Int,
+    val desc: String,
     val borrowCount: Int = 0,
 
 
@@ -24,6 +25,7 @@ data class Book(
         return bookId == other.bookId &&
                 bookname == other.bookname &&
                 author == other.author &&
+                desc == other.desc &&
                 publish == other.publish &&
                 photo.contentEquals(other.photo)
 

@@ -12,40 +12,38 @@
 
     <ImageView
         android:id="@+id/adsavio6"
-        android:layout_width="410dp"
-        android:layout_height="281dp"
-        android:layout_marginEnd="20dp"
-        android:contentDescription="@string/todo1"
+        android:layout_width="380dp"
+        android:layout_height="250dp"
+        android:contentDescription="@string/todo"
+        android:scaleType="centerInside"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        android:scaleType="centerInside"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.042"
+        app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/nyahalo" />
 
 
-
     <ImageView
-    android:id="@+id/imageView6"
-    android:layout_width="390dp"
-    android:layout_height="567dp"
-    android:layout_marginBottom="88dp"
+        android:id="@+id/imageView6"
+        android:layout_width="350dp"
+        android:layout_height="530dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/rectangle"
         android:scaleType="fitCenter"
-    android:background="@drawable/rectangle"
-    android:src="@drawable/rectangle"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintHorizontal_bias="0.476"
-    app:layout_constraintStart_toStartOf="parent" />
+        android:src="@drawable/rectangle"
+        app:layout_constraintHorizontal_bias="0.476"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/editBookTitle"
         android:layout_width="250dp"
         android:layout_height="50dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="312dp"
+        android:layout_marginBottom="264dp"
         android:ems="10"
         android:hint="@string/title"
         android:inputType="text"
@@ -59,58 +57,94 @@
         android:id="@+id/editBookAuthor"
         android:layout_width="250dp"
         android:layout_height="50dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="5dp"
         android:ems="10"
         android:hint="@string/author2"
         android:inputType="text"
         app:layout_constraintBottom_toBottomOf="@+id/imageView6"
         app:layout_constraintEnd_toEndOf="@+id/imageView6"
-        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="@+id/imageView6"
         app:layout_constraintTop_toBottomOf="@+id/editBookTitle"
-        app:layout_constraintVertical_bias="0.015" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <EditText
         android:id="@+id/editBookPublish"
         android:layout_width="250dp"
         android:layout_height="50dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="5dp"
         android:ems="10"
         android:hint="@string/publish_date"
         android:inputType="text"
         app:layout_constraintBottom_toBottomOf="@+id/imageView6"
         app:layout_constraintEnd_toEndOf="@+id/imageView6"
-        app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="@+id/imageView6"
         app:layout_constraintTop_toBottomOf="@+id/editBookAuthor"
-        app:layout_constraintVertical_bias="0.007" />
+        app:layout_constraintVertical_bias="0.0" />
+
+    <EditText
+        android:id="@+id/bookDesc1"
+        android:layout_width="250dp"
+        android:layout_height="120dp"
+        android:paddingTop="5dp"
+        android:clickable="false"
+        android:focusable="false"
+        android:paddingEnd="5dp"
+        android:gravity="start|top"
+        android:ems="10"
+        android:textSize="14sp"
+        android:hint="@string/description"
+        android:inputType="textMultiLine"
+        android:scrollHorizontally="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/imageView6"
+        app:layout_constraintStart_toStartOf="@+id/imageView6"
+        app:layout_constraintTop_toBottomOf="@+id/editBookPublish"
+        app:layout_constraintVertical_bias="0.0"
+        tools:ignore="RtlSymmetry,SmallSp" />
+
+    <EditText
+        android:id="@+id/totalCopies1"
+        android:layout_width="65dp"
+        android:layout_height="52dp"
+        android:gravity="center"
+        android:hint="Stock"
+        android:inputType="number"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.986"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.292" />
 
     <Button
         android:id="@+id/btnSave"
         android:layout_width="115dp"
         android:layout_height="53dp"
-        android:text="@string/add2"
+        android:text="Edit"
         app:layout_constraintBottom_toBottomOf="@+id/imageView6"
         app:layout_constraintEnd_toEndOf="@+id/imageView6"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="@+id/imageView6"
         app:layout_constraintTop_toBottomOf="@+id/editBookPublish"
-        app:layout_constraintVertical_bias="0.41" />
+        app:layout_constraintVertical_bias="0.896" />
+
+
 
     <ImageView
         android:id="@+id/editphoto"
         android:layout_width="221dp"
         android:layout_height="151dp"
         android:clickable="true"
+        android:contentDescription="@string/book_image"
         android:focusable="true"
         android:src="@android:drawable/ic_menu_gallery"
-        android:contentDescription="@string/book_image"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/imageView6"
         app:layout_constraintEnd_toEndOf="@+id/imageView6"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="@+id/imageView6"
         app:layout_constraintTop_toTopOf="@+id/imageView6"
-        app:layout_constraintVertical_bias="0.146" />
+        app:layout_constraintVertical_bias="0.105" />
 
     <ImageButton
         android:id="@+id/deleteBtn"
@@ -119,10 +153,10 @@
         android:layout_marginTop="239dp"
         app:layout_constraintBottom_toBottomOf="@+id/adsavio6"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.954"
+        app:layout_constraintHorizontal_bias="0.016"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/adsavio6"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintVertical_bias="0.804"
         app:srcCompat="@android:drawable/btn_dialog" />
 
 

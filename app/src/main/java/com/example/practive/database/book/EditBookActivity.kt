@@ -29,6 +29,8 @@ class EditBookActivity : AppCompatActivity() {
     private lateinit var bookAuthor: EditText
     private lateinit var bookPublish: EditText
     private lateinit var imageView: ImageView
+    private lateinit var bookDesc1: EditText
+    private lateinit var totalCopies1: EditText
     private lateinit var saveBtn: Button
     private lateinit var deleteBtn: ImageButton
     private var bookId: Int = -1
@@ -42,6 +44,8 @@ class EditBookActivity : AppCompatActivity() {
         bookTitle = findViewById(R.id.editBookTitle)
         bookAuthor = findViewById(R.id.editBookAuthor)
         bookPublish = findViewById(R.id.editBookPublish)
+        bookDesc1 = findViewById(R.id.bookDesc1)
+        totalCopies1 = findViewById(R.id.totalCopies1)
         imageView = findViewById(R.id.editphoto)
         saveBtn = findViewById(R.id.btnSave)
         deleteBtn = findViewById(R.id.deleteBtn)
@@ -82,6 +86,8 @@ class EditBookActivity : AppCompatActivity() {
                     bookTitle.setText(existingBook.bookname)
                     bookAuthor.setText(existingBook.author)
                     bookPublish.setText(existingBook.publish)
+                    bookDesc1.setText(existingBook.desc)
+                    totalCopies1.setText(existingBook.totalCopies.toString())
 
                     Glide.with(this@EditBookActivity)
                         .load(resizedImage)

@@ -14,11 +14,11 @@
 
     <ImageView
         android:id="@+id/savio2"
-        android:layout_width="410dp"
-        android:layout_height="281dp"
-        android:layout_marginEnd="20dp"
-        android:contentDescription="@string/todo1"
+        android:layout_width="380dp"
+        android:layout_height="250dp"
+        android:contentDescription="@string/todo"
         android:scaleType="centerInside"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -29,17 +29,18 @@
 
     <ImageView
         android:id="@+id/imageView6"
-        android:layout_width="390dp"
-        android:layout_height="567dp"
+        android:layout_width="340dp"
+        android:layout_height="520dp"
         android:layout_marginBottom="76dp"
-        android:scaleType="fitCenter"
         android:background="@drawable/rectangle"
+        android:scaleType="fitCenter"
         android:src="@drawable/rectangle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.476"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/savio2" />
+        app:layout_constraintTop_toBottomOf="@+id/savio2"
+        app:layout_constraintVertical_bias="0.453" />
+
 
     <EditText
         android:id="@+id/bookTitle"
@@ -47,6 +48,8 @@
         android:layout_height="50dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="312dp"
+        android:clickable="false"
+        android:focusable="false"
         android:ems="10"
         android:hint="@string/title"
         android:inputType="text"
@@ -54,28 +57,29 @@
         app:layout_constraintEnd_toEndOf="@+id/imageView6"
         app:layout_constraintStart_toStartOf="@+id/imageView6"
         app:layout_constraintTop_toBottomOf="@+id/borrowphoto"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.54" />
 
     <EditText
         android:id="@+id/bookAuthor"
         android:layout_width="250dp"
         android:layout_height="50dp"
-        android:layout_marginTop="20dp"
+        android:clickable="false"
+        android:focusable="false"
         android:ems="10"
         android:hint="@string/author2"
         android:inputType="text"
         app:layout_constraintBottom_toBottomOf="@+id/imageView6"
         app:layout_constraintEnd_toEndOf="@+id/imageView6"
-        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="@+id/imageView6"
         app:layout_constraintTop_toBottomOf="@+id/bookTitle"
-        app:layout_constraintVertical_bias="0.015" />
-
+        app:layout_constraintVertical_bias="0.0" />
 
     <EditText
         android:id="@+id/bookPublish"
         android:layout_width="250dp"
         android:layout_height="50dp"
+        android:clickable="false"
+        android:focusable="false"
         android:ems="10"
         android:hint="@string/publish_date"
         android:inputType="text"
@@ -83,7 +87,28 @@
         app:layout_constraintEnd_toEndOf="@+id/imageView6"
         app:layout_constraintStart_toStartOf="@+id/imageView6"
         app:layout_constraintTop_toBottomOf="@+id/bookAuthor"
-        app:layout_constraintVertical_bias="0.126" />
+        app:layout_constraintVertical_bias="0.0" />
+
+    <EditText
+        android:id="@+id/bookDesc"
+        android:layout_width="250dp"
+        android:layout_height="120dp"
+        android:paddingTop="5dp"
+        android:clickable="false"
+        android:focusable="false"
+        android:paddingEnd="5dp"
+        android:gravity="start|top"
+        android:ems="10"
+        android:textSize="14sp"
+        android:hint="@string/description"
+        android:inputType="textMultiLine"
+        android:scrollHorizontally="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/imageView6"
+        app:layout_constraintStart_toStartOf="@+id/imageView6"
+        app:layout_constraintTop_toBottomOf="@+id/bookPublish"
+        app:layout_constraintVertical_bias="0.0"
+        tools:ignore="RtlSymmetry,SmallSp" />
 
     <Button
         android:id="@+id/borrowButton"
@@ -92,25 +117,25 @@
         android:text="@string/borrow12"
         app:layout_constraintBottom_toBottomOf="@+id/imageView6"
         app:layout_constraintEnd_toEndOf="@+id/imageView6"
-        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="@+id/imageView6"
         app:layout_constraintTop_toBottomOf="@+id/bookPublish"
-        app:layout_constraintVertical_bias="0.301" />
+        app:layout_constraintVertical_bias="0.934" />
 
     <ImageView
         android:id="@+id/borrowphoto"
         android:layout_width="221dp"
         android:layout_height="151dp"
-        android:clickable="true"
-        android:focusable="true"
+        android:clickable="false"
+        android:focusable="false"
         android:scaleType="fitCenter"
         android:src="@android:drawable/ic_menu_gallery"
         app:layout_constraintBottom_toBottomOf="@+id/imageView6"
         app:layout_constraintEnd_toEndOf="@+id/imageView6"
-        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="@+id/imageView6"
         app:layout_constraintTop_toTopOf="@+id/imageView6"
-        app:layout_constraintVertical_bias="0.093" />
+        app:layout_constraintVertical_bias="0.067" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
