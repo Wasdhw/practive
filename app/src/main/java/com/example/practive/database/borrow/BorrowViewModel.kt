@@ -52,6 +52,16 @@ class BorrowViewModel(application: Application) : AndroidViewModel(application) 
         bookDao.incrementBorrowCount(bookId)
     }
 
+    fun decreaseTotalCopies(bookId: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val book = bookDao.getBookById(bookId)
+            if (book != null && book.totalCopies > 0) {
+                bookDao.updateTotalCopies(bookId, book.totalCopies - 1)
+            }
+        }
+    }
+
+
     fun markAsReturned(borrowId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             borrowDao.updateReturnStatus(borrowId, true)

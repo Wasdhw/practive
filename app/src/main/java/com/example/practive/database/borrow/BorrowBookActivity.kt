@@ -82,6 +82,7 @@ class BorrowBookActivity : AppCompatActivity() {
                         else -> {
                             borrowViewModel.borrowBook(userId, bookId)
                             borrowViewModel.incrementBorrowCount(bookId)
+                            borrowViewModel.decreaseTotalCopies(bookId)
 
                             Toast.makeText(this@BorrowBookActivity, "Book borrowed successfully!", Toast.LENGTH_LONG).show()
                         }

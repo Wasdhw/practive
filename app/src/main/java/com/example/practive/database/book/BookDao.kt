@@ -39,6 +39,9 @@ interface BookDao {
     @Query("SELECT totalCopies FROM book_data WHERE bookId = :bookId")
     suspend fun getTotalCopies(bookId: Int): Int
 
+    @Query("UPDATE book_data SET totalCopies = :newTotal WHERE bookId = :bookId")
+    suspend fun updateTotalCopies(bookId: Int, newTotal: Int)
+
 
     @Update
     suspend fun updateBook(book: Book)
