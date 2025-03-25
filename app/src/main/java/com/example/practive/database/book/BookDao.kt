@@ -43,6 +43,7 @@ interface BookDao {
     suspend fun updateTotalCopies(bookId: Int, newTotal: Int)
 
 
+
     @Update
     suspend fun updateBook(book: Book)
 

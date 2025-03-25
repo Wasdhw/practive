@@ -159,6 +159,7 @@ class EditBookActivity : AppCompatActivity() {
                     bookname = bookTitle.text.toString(),
                     author = bookAuthor.text.toString(),
                     publish = bookPublish.text.toString(),
+                    totalCopies = totalCopies1.text.toString().toIntOrNull() ?: existingBook.totalCopies,
                     photo = selectedImage ?: existingBook.photo
                 )
 

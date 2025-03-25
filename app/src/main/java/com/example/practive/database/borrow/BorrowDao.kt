@@ -32,6 +32,8 @@ interface BorrowDao {
     @Query("UPDATE borrow_table SET isReturned = :isReturned WHERE borrowId = :borrowId")
     suspend fun updateReturnStatus(borrowId: Int, isReturned: Boolean)
 
+    @Query("UPDATE book_data SET borrowCount = :newBorrowCount WHERE bookId = :bookId")
+    suspend fun updateBorrowCount(bookId: Int, newBorrowCount: Int)
 
 
 

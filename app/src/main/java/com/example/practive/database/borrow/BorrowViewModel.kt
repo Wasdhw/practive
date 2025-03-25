@@ -61,6 +61,12 @@ class BorrowViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
+    fun updateTotalCopies(bookId: Int, newTotal: Int) {
+        viewModelScope.launch {
+            bookDao.updateTotalCopies(bookId, newTotal)
+        }
+    }
+
 
     fun markAsReturned(borrowId: Int) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -72,6 +78,13 @@ class BorrowViewModel(application: Application) : AndroidViewModel(application) 
             Log.d("BorrowViewModel", "📌 Updated Borrow List: $updatedList")
         }
     }
+
+    fun updateBorrowCount(bookId: Int, newBorrowCount: Int) {
+        viewModelScope.launch {
+            borrowDao.updateBorrowCount(bookId, newBorrowCount)
+        }
+    }
+
 
     fun getAllBorrowsWithUsers(): LiveData<List<BorrowWithUser>> {
         return borrowDao.getAllBorrowsWithUsers()

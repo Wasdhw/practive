@@ -63,12 +63,12 @@ class BorrowBookActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            borrowButton.isEnabled = false // Prevent multiple clicks
+            borrowButton.isEnabled = false
 
             lifecycleScope.launch {
                 try {
                     val borrowCount = borrowViewModel.getBorrowCount(bookId) ?: 0
-                    val totalCopies = borrowViewModel.getTotalCopies(bookId) ?: 1
+                    val totalCopies = borrowViewModel.getTotalCopies(bookId) ?: 0
 
                     Log.d("BorrowBookActivity", "Debug: borrowCount=$borrowCount, totalCopies=$totalCopies")
 
@@ -76,7 +76,7 @@ class BorrowBookActivity : AppCompatActivity() {
                         borrowViewModel.isBookAlreadyBorrowed(userId, bookId) -> {
                             Toast.makeText(this@BorrowBookActivity, "You have already borrowed this book!", Toast.LENGTH_LONG).show()
                         }
-                        borrowCount >= totalCopies -> {
+                        borrowCount >= totalCopies ->  {
                             Toast.makeText(this@BorrowBookActivity, "This book is no longer available!", Toast.LENGTH_LONG).show()
                         }
                         else -> {
@@ -91,7 +91,7 @@ class BorrowBookActivity : AppCompatActivity() {
                     Log.e("BorrowBookActivity", "Error: ${e.message}", e)
                     Toast.makeText(this@BorrowBookActivity, "Failed to borrow book. Try again.", Toast.LENGTH_LONG).show()
                 } finally {
-                    delay(1000) // Add 1-second delay before closing the activity
+                    delay(1000)
                     finish()
                 }
             }

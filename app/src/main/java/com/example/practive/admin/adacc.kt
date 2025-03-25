@@ -10,6 +10,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.practive.MainActivity
@@ -17,6 +18,7 @@ import com.example.practive.R
 import com.example.practive.database.borrow.BorrowAdapter
 import com.example.practive.database.borrow.BorrowViewModel
 import com.example.practive.database.borrow.BorrowWithUser
+import kotlinx.coroutines.launch
 
 class adacc : AppCompatActivity() {
 
@@ -83,17 +85,33 @@ class adacc : AppCompatActivity() {
             .setTitle("Retrieve Book")
             .setMessage("Do you want to retrieve ${borrowItem.bookTitle}?")
             .setPositiveButton("Retrieve") { _, _ ->
-                borrowViewModel.markAsReturned(borrowItem.borrowId)
+                lifecycleScope.launch {
+                    try {
+                        borrowViewModel.markAsReturned(borrowItem.borrowId)
 
-                // ✅ Update item in the list
-                val updatedList = borrowAdapter.currentList.map {
-                    if (it.borrowId == borrowItem.borrowId) it.copy(isReturned = true) else it
+
+                        val currentTotalCopies = borrowViewModel.getTotalCopies(borrowItem.bookId) ?: 0
+                        val newTotalCopies = currentTotalCopies + 1
+                        borrowViewModel.updateTotalCopies(borrowItem.bookId, newTotalCopies)
+
+                        val currentBorrowCount = borrowViewModel.getBorrowCount(borrowItem.bookId) ?: 0
+                        val newBorrowCount = if (currentBorrowCount > 0) currentBorrowCount - 1 else 0
+                        borrowViewModel.updateBorrowCount(borrowItem.bookId, newBorrowCount)
+
+
+                        val updatedList = borrowAdapter.currentList.map {
+                            if (it.borrowId == borrowItem.borrowId) it.copy(isReturned = true) else it
+                        }
+                        borrowAdapter.submitList(updatedList)
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
                 }
-                borrowAdapter.submitList(updatedList)
             }
             .setNegativeButton("Cancel", null)
             .show()
     }
+
 
     private fun showLogoutConfirmationDialog() {
         AlertDialog.Builder(this)
