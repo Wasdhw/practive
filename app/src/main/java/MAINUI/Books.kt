@@ -111,6 +111,7 @@ class Books : AppCompatActivity() {
         val filteredList = fullBookList1.filter {
             it.bookname.contains(query, ignoreCase = true) ||
                     it.author.contains(query, ignoreCase = true)
+                         it.publish.contains(query, ignoreCase = true )
         }
         adapter1.setData(filteredList)
     }
